@@ -3,9 +3,9 @@
 // - The solution should not consider an empty string or a single character as a palindrome.
 
 public func isPalindrome(input: String) -> Bool {
-    // we want only letters
+    // we want ignore space, punctuation, control characters.
     let cleanInput: String = input.filter { c in
-        return c.isLetter
+        return !c.isPunctuation && !c.isWhitespace
     } 
 
     //we dont consider "" or single letter as a pali...
@@ -40,6 +40,6 @@ public func isPalindrome(input: String) -> Bool {
 assert(isPalindrome(input: "asssssa")) // true 
 assert(!isPalindrome(input: "!@@!")) // false 
 assert(isPalindrome(input: "kamil slimak")) // true 
-assert(isPalindrome(input: "aa tt     ,,,... aa")) // true
+assert(isPalindrome(input: "aa tt ??    ,,,... aa")) // true
 assert(!isPalindrome(input: "")) // false
 assert(!isPalindrome(input: "c")) // false 
