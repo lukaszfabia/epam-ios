@@ -5,7 +5,7 @@ struct User {
 }
 
 class UserManager { 
-    // storing email - user
+    // storing username - user
     var users: [String: User]
 
     var userCount: Int {
