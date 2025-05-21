@@ -3,7 +3,7 @@
 // - For example, "(())" is balanced, but "(()" is not.
 
 public func isBalancedParentheses(input: String) -> Bool {
-    var stack: [String.Element] = []
+    var stack: [Character] = []
 
     for char in input  {
         // live filtering
@@ -39,6 +39,7 @@ assert(isBalancedParentheses(input: ""))
 assert(!isBalancedParentheses(input: "(d)asa)"))
 assert(!isBalancedParentheses(input: ")()("))
 assert(!isBalancedParentheses(input: "(((as)asa(sas)asa(sa"))
+assert(isBalancedParentheses(input: "xxx"))
 
 
 let bigstr = """
