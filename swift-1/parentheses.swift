@@ -5,9 +5,7 @@
 public func isBalancedParentheses(input: String) -> Bool {
     var stack: [Character] = []
 
-    for char in input  {
-        // live filtering
-        if char == ")" || char == "(" {
+    for char in input where char == ")" || char == "("  {
             if char == "(" {
                 stack.append(char)
             } 
@@ -20,7 +18,6 @@ public func isBalancedParentheses(input: String) -> Bool {
             else {
                 return false
             }
-        }
     }
     
     return stack.isEmpty
