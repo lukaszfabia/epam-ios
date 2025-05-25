@@ -37,18 +37,15 @@ let books: [[String: Any]] = [
 ]
 
 let discount = 0.1
+let beforeYear = 2000
 
 // map
-// let discountedPrices = books.map { (Double($0["price"] as! Int)) * (1 - discount) }
-
-let discountedPrices: [Double] = books.compactMap { (Double($0["price"] as! Int)) * (1 - discount) }
-
+let discountedPrices = books.map { (Double($0["price"] as! Int)) * (1 - discount) }
 print(discountedPrices)
 
-// ($0["year"] as! Int > 2000)
 let booksPostedAfter2000: [String] =
     books
-    .filter { ($0["year"] as! Int > 2000) }
+    .filter { ($0["year"] as! Int > beforeYear) }
     .map { $0["title"] as! String }
 
 print(booksPostedAfter2000)
@@ -56,5 +53,5 @@ print(booksPostedAfter2000)
 let allGenres: Set<String> = Set(books.flatMap { $0["genre"] as! [String] })
 print(allGenres)
 
-let totalCost = books.reduce(0, { acc, curr in curr["price"] as! Int + acc })
+let totalCost = books.reduce(0, { acc, curr in (curr["price"] as! Int) + acc })
 print(totalCost)
