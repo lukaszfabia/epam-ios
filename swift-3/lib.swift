@@ -22,9 +22,9 @@ protocol Borrowable {
     var isBorrowed: Bool { set get }
 
     /// handles item return processes, resetting dates and status.
-    func checkIn() -> Void
+    mutating func checkIn() -> Void
 
-    func borrow() -> Void
+    mutating func borrow() -> Void
 }
 
 
@@ -46,10 +46,16 @@ extension Borrowable {
         return currDate > returnDate
     }
 
-    func checkIn() -> Void {
+    mutating func checkIn() -> Void {
+        self.borrowDate = nil
+        self.returnDate = nil
+        self.isBorrowed = false
     }
 
-    func borrow() -> Void {
+    mutating func borrow() -> Void {
+        self.isBorrowed = true
+        self.borrowDate = Date()
+        self.returnDate = Date().addingTimeInterval(60 * 60 * 24 * 7) // 7d  
     }
 }
 
@@ -87,7 +93,7 @@ class Item {
     }
 
     var description: String {
-        return "Item ID: \(ID), Title: \(title), Author: \(author.fullName)"
+        return "ID: \(ID) title: \(title) author: \(author.fullName)"
     }
 }
 
@@ -137,28 +143,7 @@ class Library {
     }
 
 
-    // func borrowItem(by id: Int) throws -> Item {
-    //     guard let item = self.books[id] else {
-    //         throw LibraryError.itemNotFound
-    //     }
-
-    //     guard var bookToBorrow = (item as? Borrowable) else {
-    //         throw LibraryError.itemNotBorrowable
-    //     }
-        
-
-    //     if bookToBorrow.isBorrowed {
-    //         throw LibraryError.alreadyBorrowed
-    //     }
-
-    //     bookToBorrow.borrow()
-    //     self.books[id] = bookToBorrow as? Item
-        
-    //     print("Book borrowed successfully!")
-    //     return bookToBorrow as! Item
-    // }
-
-        func borrowItem(by id: Int) throws -> Item {
+    func borrowItem(by id: Int) throws -> Item {
         guard let item = self.books[id] else {
             throw LibraryError.itemNotFound
         }
@@ -173,10 +158,9 @@ class Library {
         }
 
         bookToBorrow.borrow()
-        self.books[id] = bookToBorrow as? Item
         
         print("Book borrowed successfully!")
-        return bookToBorrow as! Item
+        return item
     }
 }
 
@@ -211,7 +195,7 @@ do {
 
     // let _ = try lib.borrowItem(by: movie.ID) 
     // let _ = try lib.borrowItem(by: book.ID)
-    let _ = try lib.borrowItem(by: goodBook.ID) 
+    // let _ = try lib.borrowItem(by: goodBook.ID) 
 } catch LibraryError.itemNotFound {
     print("Not found in the library.")
 } catch LibraryError.itemNotBorrowable {
