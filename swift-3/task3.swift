@@ -34,24 +34,54 @@ let books: [[String: Any]] = [
         "title": "To Kill a Mockingbird", "author": "Harper Lee", "year": 1960, "price": 20,
         "genre": ["Classic", "Drama"],
     ],
+    [ // try to crash 1 subtask
+        "title": "custom book", "author": "run time crush", "year": 2025,
+        "genre": ["Classic", "Drama"],
+    ],
+    [ // try to crash 2 subtask
+        "title": "custom book", "author": "run time crush",
+        "genre": ["Classic", "Drama"],
+    ],    
+    [ // try to crash 2 subtask
+        "author": "run time crush", "year": 2025, "price": 20,
+        "genre": ["Classic", "Drama"],
+    ],
+    [ // try to crash 3, 4 subtask
+        "author": "", "year": 2025,
+    ],
 ]
 
 let discount = 0.1
 let beforeYear = 2000
+let defaultTitle = "No title"
 
-// map
-let discountedPrices = books.map { (Double($0["price"] as! Int)) * (1 - discount) }
+let discountedPrices = books.compactMap { elen in
+    if let price = elen["price"] as? Int {
+        return Double(price) * (1 - discount)
+    }
+    return nil
+}
+
 print(discountedPrices)
 
 let booksPostedAfter2000: [String] =
     books
-    .filter { ($0["year"] as! Int > beforeYear) }
-    .map { $0["title"] as! String }
+    .filter { elem in
+        if let year = elem["year"] as? Int {
+            return year > beforeYear
+        }
+        return false
+    }
+    .map { elem in
+        return elem["title"] as? String ?? defaultTitle
+    }
 
 print(booksPostedAfter2000)
 
-let allGenres: Set<String> = Set(books.flatMap { $0["genre"] as! [String] })
+let allGenres: Set<String> = Set(books.flatMap { elem in
+    return elem["genre"] as? [String] ?? [] 
+})
 print(allGenres)
 
-let totalCost = books.reduce(0, { acc, curr in (curr["price"] as! Int) + acc })
+let totalCost = books.reduce(0, { acc, curr in (curr["price"] as? Int ?? 0) + acc })
 print(totalCost)
