@@ -47,53 +47,32 @@ extension Borrowable {
     }
 
     mutating func checkIn() -> Void {
-        self.borrowDate = nil
-        self.returnDate = nil
-        self.isBorrowed = false
+        borrowDate = nil
+        returnDate = nil
+        isBorrowed = false
     }
 
     mutating func borrow() -> Void {
-        self.isBorrowed = true
-        self.borrowDate = Date()
-        self.returnDate = Date().addingTimeInterval(60 * 60 * 24 * 7) // 7d  
+        isBorrowed = true
+        borrowDate = Date()
+        returnDate = Date().addingTimeInterval(60 * 60 * 24 * 7) // 7d  
     }
 }
 
-
-class Author {
-    private let lastName: String
-    private let firstName: String
-
-    var fullName: String {
-        return "\(firstName) \(lastName)"
-    }
-
-    init(firstName: String, lastName: String) {
-        self.firstName = firstName
-        self.lastName = lastName
-    }
-}
 
 class Item {
-    //generator for unique IDs
-    private static var idGenerator: Int = 0
-    static func getNewID() -> Int {
-        idGenerator += 1
-        return idGenerator
-    }
-
-    var ID: Int
+    var ID: String
     var title: String
-    var author: Author
+    var author: String
 
-    init(title: String, author: Author) {
-        self.ID = Item.getNewID()
-        self.title = title
-        self.author = author
+    init(newTitle: String, newAuthor: String) {
+        ID = UUID().uuidString
+        title = newTitle
+        author = newAuthor
     }
 
     var description: String {
-        return "ID: \(ID) title: \(title) author: \(author.fullName)"
+        return "ID: \(ID) title: \(title) author: \(author)"
     }
 }
 
@@ -102,9 +81,9 @@ class Book: Item, Borrowable {
     var returnDate: Date?
     var isBorrowed: Bool
 
-    override init(title: String, author: Author) {
-        self.isBorrowed = false
-        super.init(title: title, author: author)
+    override init(newTitle: String, newAuthor: String) {
+        isBorrowed = false
+        super.init(newTitle: newTitle, newAuthor: newAuthor)
     }
 
 
@@ -119,18 +98,14 @@ class Movie: Item {
 
 
 class Library {
-    private var books: [Int: Item]
-
-    init() {
-        self.books = [:]
-    }
+    private var books: [String: Item] = [:]
 
     func addItem(_ item: Item) {
-        self.books[item.ID] = item
+        books[item.ID] = item
     }
 
     func addBook(_ book: Book) throws {
-        let hasBook = self.books.contains { (key: Int, _: Item) in
+        let hasBook = books.contains { (key: String, _: Item) in
             return book.ID == key
         }
 
@@ -138,13 +113,13 @@ class Library {
             throw LibraryError.duplicatedBook
         }
 
-        self.books[book.ID] = book
+        books[book.ID] = book
         print("Book has been assigned!")
     }
 
 
-    func borrowItem(by id: Int) throws -> Item {
-        guard let item = self.books[id] else {
+    func borrowItem(by id: String) throws -> Item {
+        guard let item = books[id] else {
             throw LibraryError.itemNotFound
         }
 
@@ -153,14 +128,14 @@ class Library {
         }
         
         // optional chaining but imo its not needed here
-        if let isBorrowed = (self.books[id] as? Borrowable)?.isBorrowed, isBorrowed {
+        if let isBorrowed = (books[id] as? Borrowable)?.isBorrowed, isBorrowed {
             throw LibraryError.alreadyBorrowed
         }
 
         // imo this is the better slt
-        if bookToBorrow.isBorrowed {
-            throw LibraryError.alreadyBorrowed
-        }
+        // if bookToBorrow.isBorrowed {
+        //     throw LibraryError.alreadyBorrowed
+        // }
 
 
         bookToBorrow.borrow()
@@ -173,14 +148,12 @@ class Library {
 
 let lib = Library()
 
-let author = Author(firstName: "Lukasz", lastName: "Fabia")
-let michel = Author(firstName: "Michel", lastName: "Houellebecq")
 
-let goodBook = Book(title: "Extension du domaine de la lutte", author: michel)
+let goodBook = Book(newTitle: "Extension du domaine de la lutte", newAuthor: "Michel Houellebecq")
 
-let book = Book(title: "ABC", author: author)
+let book = Book(newTitle: "ABC", newAuthor: "Lukasz Fabia")
 
-let movie = Movie(title: "Rambo", author: author)// not borrowable
+let movie = Movie(newTitle: "Rambo", newAuthor: "Lukasz Fabia")// not borrowable
 
 lib.addItem(movie)
 
@@ -200,7 +173,7 @@ do {
 
 
     // let _ = try lib.borrowItem(by: movie.ID) 
-    let _ = try lib.borrowItem(by: book.ID)
+    // let _ = try lib.borrowItem(by: book.ID)
     // let _ = try lib.borrowItem(by: goodBook.ID) 
 } catch LibraryError.itemNotFound {
     print("Not found in the library.")
@@ -211,5 +184,4 @@ do {
 } catch {
     print("Unknown: \(error)")
 }
-
 
