@@ -152,10 +152,16 @@ class Library {
             throw LibraryError.itemNotBorrowable
         }
         
+        // optional chaining but imo its not needed here
+        if let isBorrowed = (self.books[id] as? Borrowable)?.isBorrowed, isBorrowed {
+            throw LibraryError.alreadyBorrowed
+        }
 
+        // imo this is the better slt
         if bookToBorrow.isBorrowed {
             throw LibraryError.alreadyBorrowed
         }
+
 
         bookToBorrow.borrow()
         
@@ -194,7 +200,7 @@ do {
 
 
     // let _ = try lib.borrowItem(by: movie.ID) 
-    // let _ = try lib.borrowItem(by: book.ID)
+    let _ = try lib.borrowItem(by: book.ID)
     // let _ = try lib.borrowItem(by: goodBook.ID) 
 } catch LibraryError.itemNotFound {
     print("Not found in the library.")
