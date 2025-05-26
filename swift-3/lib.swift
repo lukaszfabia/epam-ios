@@ -7,7 +7,7 @@ enum LibraryError: Error {
     case alreadyBorrowed
 
     // my errors 
-    case duplicatedBook
+    // case duplicatedBook
 }
 
 protocol Borrowable {
@@ -104,14 +104,14 @@ class Library {
         books[item.ID] = item
     }
 
-    func addBook(_ book: Book) throws {
-        let hasBook = books.contains { (key: String, _: Item) in
-            return book.ID == key
-        }
+    func addBook(_ book: Book) {
+        // let hasBook = books.contains { (key: String, _: Item) in
+        //     return book.ID == key
+        // }
 
-        guard !hasBook else {
-            throw LibraryError.duplicatedBook
-        }
+        // guard !hasBook else {
+        //     throw LibraryError.duplicatedBook
+        // }
 
         books[book.ID] = book
         print("Book has been assigned!")
@@ -157,13 +157,7 @@ let movie = Movie(newTitle: "Rambo", newAuthor: "Lukasz Fabia")// not borrowable
 
 lib.addItem(movie)
 
-do { 
-    try lib.addBook(book)
-} catch LibraryError.duplicatedBook {
-    print("Book already exists in the library.")
-} catch {
-    print("Unknown: \(error)")
-}
+lib.addBook(book)
 
 do {
     let item = try lib.borrowItem(by: book.ID) as! Book
