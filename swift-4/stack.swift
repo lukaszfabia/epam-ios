@@ -1,9 +1,5 @@
 class Stack<T> {
 
-    enum StackErrors: Error {
-        case stackIsEmpty
-    }
-
     private class Node {
         var value: T
         var next: Node?
@@ -16,35 +12,55 @@ class Stack<T> {
 
     private var currentFirst: Node?
 
-    init() {
-        self.currentFirst = nil
+    init(_ elements: [T]? = nil) {
+        if let arr = elements {
+            self.pushAll(arr)
+        } else {
+            self.currentFirst = nil
+        }
     }
 
+    /// Assign new node to stack
+    /// - Parameter node: node to insert
+    private func assignNewNode(_ node: Node) {
+        node.next = currentFirst
+        currentFirst = node
+    }
+
+    /// Puts new element on the stack
+    /// - Parameter element: value to put
     func push(_ element: T) {
         let newNode = Node(value: element)
-        newNode.next = currentFirst
-        currentFirst = newNode
+        assignNewNode(newNode)
     }
 
-    func pop() throws -> T {
-        guard let last = currentFirst  else {
-            throw StackErrors.stackIsEmpty
-        } 
+    /// Removes value from stack's top
+    /// - Returns: Popped value or nil if stack is empty
+    func pop() -> T? {
+        guard let last = currentFirst else {
+            return nil
+        }
 
         currentFirst = last.next
 
         return last.value
     }
 
-    private func forEachInStack(fn: (_ node: Node?) -> Void) {
+    /// Closure to easily iteratre over the stack
+    /// - Parameter fn: function to execute
+    private func forEachInStack(fn: (_ node: Node) -> Void) {
         var ptrNode = currentFirst
-        
+
         while ptrNode != nil {
-            fn(ptrNode)
-            ptrNode = ptrNode?.next
+            if let n = ptrNode {
+                fn(n)
+                ptrNode = n.next
+            }
         }
     }
 
+    /// Get amount of elements in stack
+    /// - Returns: stack's size
     func size() -> Int {
         var count = 0
 
@@ -55,40 +71,28 @@ class Stack<T> {
         return count
     }
 
-    func printStackContents() -> Void {
-        forEachInStack { node in 
-            if let val = node?.value {
-                print(val)
-            }
+    /// Prints stack contents from top to end
+    func printStackContents() {
+        forEachInStack { node in
+            print(node.value)
+        }
+    }
+
+    /// Pushes all elements of list in the stack
+    /// - Parameter elements: list with elements
+    func pushAll(_ elements: [T]) {
+        elements.forEach { element in
+            assignNewNode(Node(value: element))
         }
     }
 }
 
-
 let s = Stack<Int>()
 
-
-s.push(5)
-
-s.push(1211)
-
-s.printStackContents()
-
-do {
-    let popped = try s.pop()
-    assert(popped == 1211)
-} catch  {
-    print()
+if s.pop() == nil {
+    print("WE WANT THIS WE NEED THIS")
 }
 
+s.push(34)
+
 s.printStackContents()
-
-do {
-    _ = try s.pop()
-    _ = try s.pop()
-
-    assert(s.size() == 0)
-    s.printStackContents()
-} catch  {
-    print("We want to get error")
-}
