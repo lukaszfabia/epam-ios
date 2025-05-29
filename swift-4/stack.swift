@@ -1,7 +1,7 @@
 class Stack<T> {
 
     private class Node {
-        var value: T
+        let value: T
         var next: Node?
 
         init(value: T) {
