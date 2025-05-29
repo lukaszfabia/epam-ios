@@ -46,7 +46,7 @@ class Stack<T> {
         return last.value
     }
 
-    /// Closure to easily iteratre over the stack
+    /// Iterate over the stack easier
     /// - Parameter fn: function to execute
     private func forEachInStack(fn: (_ node: Node) -> Void) {
         var ptrNode = currentFirst
@@ -95,4 +95,9 @@ if s.pop() == nil {
 
 s.push(34)
 
+assert(s.size() == 1)
+
 s.printStackContents()
+
+_ = s.pop()
+assert(s.size() == 0)
