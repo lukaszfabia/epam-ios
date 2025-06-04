@@ -46,12 +46,14 @@ func countRole(in school: School, role: School.SchoolRole) -> Int {
 let person1 = School.Person(name: "Lukasz", role: .student)
 let person2 = School.Person(name: "Jan", role: .student)
 let person3 = School.Person(name: "Liwia", role: .student)
+let person11 = School.Person(name: "Liwia", role: .student)
 
 let person4 = School.Person(name: "Natalia", role: .teacher)
 
 var pwr = School(people: [person1, person2, person3, person4])
 
 pwr.addPerson(School.Person(name: "Tomasz", role: .administrator))
+pwr.addPerson(person11)
 
 assert(countAdmins(pwr) == 1)
 assert(countTeachers(pwr) == 1)
