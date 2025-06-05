@@ -1,57 +1,161 @@
-Questions for Self-Control
-Generics
-What are generics in Swift and why are they useful?
-How do you define a generic function in Swift?
-Can you create a generic class or struct in Swift? How would you declare it?
-What are type constraints in generics? How do you use them?
-How do you apply generics with collections like Array or Dictionary?
-What is the difference between Any and AnyObject in the context of generics?
-How does Swift’s associatedtype relate to generics and protocols?
-Can generics be used with protocols? If so, how?
-What are some real-world use cases where generics are especially beneficial?
+# Generyki w Swift
 
-Opaque and Boxed Protocol Types
-What are opaque types in Swift? How are they declared?
-How do opaque types differ from generics?
-What does the some keyword represent in Swift?
-What is a boxed type?
-How do you work with boxed protocol types in Swift?
-When would you use an opaque return type instead of a generic return type?
-What are the benefits of using opaque types for abstraction?
-How do you handle type erasure when working with boxed types?
-Can you create your own custom opaque or boxed type in Swift? If so, how?
+### Czym są generyki i dlaczego są przydatne?
+Generyki pozwalają definiować zachowanie dla wielu typów danych, abstrahując od konkretnego typu. Dzięki nim można tworzyć uniwersalne struktury danych i funkcje, np. `Array`, `Dictionary` są generyczne.
 
-Automatic Reference Counting (ARC)
-What is Automatic Reference Counting (ARC) in Swift? How does it work?
-What is the difference between strong, weak, and unowned references?
-How does ARC manage memory and prevent memory leaks?
-What is a strong reference cycle (retain cycle), and how do you avoid it?
-How do weak and unowned references differ in terms of memory management?
-What happens when an object is deallocated in ARC?
-How does ARC handle closures? How can it lead to memory cycles?
-How do you break a retain cycle in closures?
-What are some real-world scenarios where understanding ARC is crucial in iOS development?
+### Jak zdefiniować funkcję generyczną?
+Dodając parametr typu w nawiasach ostrych `<T>`, np.:
+```swift
+func example<T>(value: T) { ... }
+````
 
-Memory Safety
-What is memory safety in Swift and why is it important?
-How does Swift ensure memory safety at compile time?
-What is the rule of exclusive access to memory and how does it prevent unsafe memory access?
-What happens if a variable is accessed simultaneously for reading and writing?
-How does Swift handle inout parameters in terms of memory safety?
-What is the difference between private and fileprivate memory access?
-Can you access the same variable in two different places in your code at the same time?
-What are UnsafePointer and related types, and when should you use them?
-How can you work with pointers and unsafe code in Swift safely?
-Why is memory safety particularly important in mobile applications?
+Można też narzucać ograniczenia (constraints) na typ `T`.
 
-Access Control
-What are access control levels in Swift?
-What is the default access level if none is specified?
-How do you define the private, fileprivate, internal, public, and open access levels?
-How does the public access level differ from the open access level?
-Can you override methods of a public class in another module?
-How do access control rules apply to extensions?
-Can an extension declare a higher access level than the type itself?
-Why should you use the private access level in your code?
-When would you use fileprivate over private?
-How does access control help in building modular and secure applications?
+### Czy można utworzyć klasę lub strukturę generyczną?
+
+Tak, np.:
+
+```swift
+struct BBB<T> {
+    var t: T
+}
+```
+
+`T` to alias typu, można nazwać inaczej, np. `<MyType>`.
+
+### Co to są ograniczenia typu (constraints) i jak ich używać?
+
+Pozwalają ograniczyć typ `T`, np. wymuszając dziedziczenie lub implementację protokołu:
+
+```swift
+struct BBB<T: MyProtocol> {
+    var t: T
+}
+```
+
+### Generyki z kolekcjami
+
+`Array`, `Dictionary` i inne struktury są już generyczne i można je stosować z dowolnym typem spełniającym wymagania.
+
+### Różnica między `Any` a `AnyObject`
+
+* `Any` — dowolny typ (wartościowy lub referencyjny)
+* `AnyObject` — dowolna instancja klasy (referencyjny typ)
+
+---
+
+# Typy skojarzone i protokoły
+
+### Typ skojarzony (associatedtype) a generyki
+
+Pozwala definiować w protokole typ, który będzie doprecyzowany przez implementację protokołu, co umożliwia tworzenie generycznych protokołów.
+
+### Przykład protokołu z typem skojarzonym:
+
+```swift
+protocol Repo {
+    associatedtype T: Animal
+    func findByID(id: String) -> T
+}
+```
+
+(Nie można zadeklarować protokołu generycznego jak funkcji).
+
+---
+
+# Opaque and Boxed Protocol Types
+
+### Co to są nieprzezroczyste typy (opaque types)?
+
+Typy, które ukrywają konkretny zwracany typ, ale gwarantują implementację określonego protokołu. Deklarujemy je słowem `some`.
+
+### Różnica między generykami a nieprzezroczystymi typami:
+
+* Generyki pozwalają na różne typy w czasie kompilacji.
+* Opaque typy zawsze zwracają ten sam ukryty typ, ale użytkownik tego nie widzi.
+
+### Co oznacza `some`?
+
+Mówi kompilatorowi, że zwracany typ jest znany, ale użytkownik go nie zna.
+
+---
+
+# Automatyczne zliczanie referencji (ARC)
+
+### Czym jest ARC?
+
+System zarządzania pamięcią w Swift, który automatycznie zwalnia pamięć, gdy liczba referencji do obiektu spada do 0.
+
+### Typy referencji:
+
+* `strong` — inkrementuje licznik referencji (domyślna)
+* `weak` — nie inkrementuje licznika, jest opcjonalne (`nil` gdy obiekt zniknie)
+* `unowned` — nie inkrementuje, nie może być `nil`, wymaga pewności co do cyklu życia obiektu
+
+### Silny cykl referencji i jego unikanie
+
+Gdy dwa obiekty mają silne referencje do siebie — pamięć nie jest zwalniana. Rozwiązuje się to stosując `weak` lub `unowned`.
+
+### Przykład unikania cyklu:
+
+```swift
+class Person {
+    var cat: Cat?
+}
+
+class Cat {
+    weak var owner: Person?
+}
+```
+
+### ARC a zamknięcia (closures)
+
+Zamknięcia mogą tworzyć silne cykle, jeśli referencje do `self` są silne. Należy używać `[weak self]` lub `[unowned self]` w capture list.
+
+---
+
+# Bezpieczeństwo pamięci
+
+### Zasady i mechanizmy
+
+* ARC
+* Typy wartościowe zamiast wskaźników
+* Brak wskaźników surowych (poza UnsafePointer)
+* Kontrola dostępu (private, fileprivate)
+* Wyłączny dostęp do pamięci (np. `inout`)
+
+### Wyłączny dostęp do pamięci
+
+`inout` gwarantuje, że zmienna nie jest jednocześnie czytana lub zapisywana w innym miejscu, co zapobiega błędom i race conditions.
+
+---
+
+# Kontrola dostępu w Swift
+
+### Poziomy dostępu:
+
+* `private` — dostęp tylko wewnątrz tej klasy/struktury
+* `fileprivate` — dostęp w obrębie pliku
+* `internal` — dostęp w module (domyślny)
+* `public` — dostęp poza modułem, ale **bez możliwości dziedziczenia/nadpisywania**
+* `open` — dostęp i możliwość dziedziczenia/nadpisywania poza modułem
+
+### Odpowiedzi na pytania:
+
+1. **Czy można zastąpić metody klasy publicznej w innym module?**
+   Nie. Metody `public` można wywoływać, ale nadpisywać (override) tylko te oznaczone jako `open`.
+
+2. **Jak zasady kontroli dostępu odnoszą się do rozszerzeń?**
+   Rozszerzenia mogą mieć dostęp do poziomu dostępu oryginalnego typu, ale nie mogą mieć wyższego poziomu niż ten typ.
+
+3. **Czy rozszerzenie może zadeklarować wyższy poziom dostępu niż sam typ?**
+   Nie, nie może.
+
+4. **Dlaczego należy używać prywatnego poziomu dostępu?**
+   Aby ukryć szczegóły implementacji, chronić wewnętrzne dane i uprościć utrzymanie kodu.
+
+5. **Kiedy użyć `fileprivate` zamiast `private`?**
+   Gdy potrzebujemy udostępnić element wszystkim w danym pliku, ale nie poza nim.
+
+6. **W jaki sposób kontrola dostępu pomaga w budowaniu modułowych i bezpiecznych aplikacji?**
+   Oddziela interfejs od implementacji, zapobiega nieautoryzowanemu dostępowi, zwiększa bezpieczeństwo i ułatwia zarządzanie kodem.

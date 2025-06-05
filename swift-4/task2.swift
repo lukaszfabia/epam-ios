@@ -1,8 +1,7 @@
-protocol Shape { 
+protocol Shape {
     func area() -> Double
     func perimeter() -> Double
 }
-
 
 class Circle: Shape {
     let radius: Double
@@ -16,13 +15,13 @@ class Circle: Shape {
     }
 
     func perimeter() -> Double {
-        return Double.pi * 2 * radius // 2pir 
+        return Double.pi * 2 * radius  // 2pir
     }
 }
 
 class Rectangle: Shape {
-    let width: Double 
-    let height : Double 
+    let width: Double
+    let height: Double
 
     init(height: Double, width: Double) {
         self.height = height
@@ -34,22 +33,19 @@ class Rectangle: Shape {
     }
 
     func perimeter() -> Double {
-        return 2*width + 2*height
+        return 2 * width + 2 * height
     }
 }
 
-
-func generateShape() -> some Shape{
+func generateShape() -> some Shape {
     return Circle(radius: 5)
 }
 
-
-func calculateShapeDetails(shape: Shape) -> (Double, Double)  {
+func calculateShapeDetails(shape: any Shape) -> (Double, Double) {
     return (shape.area(), shape.perimeter())
 }
 
-
-let shape = generateShape() 
+let shape = generateShape()
 
 print(calculateShapeDetails(shape: shape))
 

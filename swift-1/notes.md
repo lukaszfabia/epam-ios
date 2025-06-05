@@ -1,33 +1,42 @@
-1. Q: Diff betweent `let` and `var`?
+## 1. P: Różnica między `let` a `var`?
 
-A: `let` keyword tells about immutability of var and `var` keyword let to reassign to variable.
+**O:** Słowo kluczowe `let` oznacza, że zmienna jest niemutowalna (nie można jej zmienić), a `var` pozwala na ponowne przypisanie wartości do zmiennej.
 
-2. Q: Is it necessary to annotate type?
+---
 
-A: We don't need to write the type only if variable has a initial value, then swift compiler uses type interfernce in other way we get a compiler error. Good to know that compiler cant cast the var e.g x=1 y=.1 z=x+y (error) Int + Double.
+## 2. P: Czy trzeba jawnie określać typ zmiennej?
 
-3. Q: Array, Set, Dict usage and main diffs?
+**O:** Nie trzeba podawać typu, jeśli zmienna ma wartość początkową – wtedy kompilator Swift używa wnioskowania typów. W przeciwnym razie wystąpi błąd kompilacji. Warto wiedzieć, że kompilator nie potrafi automatycznie rzutować np. `x = 1`, `y = 0.1`, `z = x + y` (błąd, bo `Int + Double`).
 
-A:
+---
 
-- Array/List: is ordered data strucure, can has duplicated values
+## 3. P: Jakie są zastosowania i główne różnice między Array, Set i Dictionary?
 
-- Set: is unordered data strucure, can has unique values
+**O:**
 
-- Dict: data structure which has a key-value, mostly used in json objects
+- **Array (Tablica):** uporządkowana struktura danych, może zawierać duplikaty.
+- **Set (Zbiór):** nieuporządkowana struktura danych, przechowuje tylko unikalne wartości.
+- **Dictionary (Słownik):** struktura danych przechowująca pary klucz-wartość, często używana w obiektach JSON.
 
-4. Diff String and Char, strings mutability?
+---
 
-It depends from mutability modificator, if we have string declared with let and can't make str concat.
-String is a phrase and chat is like a letter, string is like a [char]
+## 4. P: Różnica między String a Character, mutowalność Stringa?
 
-5. while vs do-while (reaped while)
+**O:** To zależy od modyfikatora mutowalności. Jeśli string został zadeklarowany przez `let`, nie można go zmienić (np. przez konkatenację).  
+`String` to ciąg znaków, a `Character` to pojedynczy znak – można powiedzieć, że `String` to tablica `[Character]`.
 
-while chat cond as a first, do-while (users input) checks cond after instructions in body
+---
 
-6. Overloading?
+## 5. P: Różnica między `while` a `do-while`?
 
-cond: the same name of func, and various types
+**O:** W `while` warunek jest sprawdzany przed wykonaniem ciała pętli.  
+W `do-while` (np. do pobierania danych od użytkownika) warunek jest sprawdzany po pierwszym wykonaniu ciała pętli – gwarantuje to przynajmniej jedno wykonanie.
+
+---
+
+## 6. P: Przeciążanie funkcji (Overloading)?
+
+**O:** Warunek: funkcje mają taką samą nazwę, ale różne typy parametrów.
 
 ```swift
 func add(lhs: Double, rhs: Double) -> Double {
@@ -37,4 +46,3 @@ func add(lhs: Double, rhs: Double) -> Double {
 func add(lhs: Int, rhs: Int) -> Int {
     return lhs + rhs
 }
-```
