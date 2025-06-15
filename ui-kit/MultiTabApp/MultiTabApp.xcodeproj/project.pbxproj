@@ -7,53 +7,53 @@
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
-		F348B0B82DFE0733000C3DC2 /* PBXContainerItemProxy */ = {
+		F36A360B2DFF08FE007190F5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = F348B0992DFE0731000C3DC2 /* Project object */;
+			containerPortal = F36A35EC2DFF08FC007190F5 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F348B0A02DFE0731000C3DC2;
+			remoteGlobalIDString = F36A35F32DFF08FC007190F5;
 			remoteInfo = MultiTabApp;
 		};
-		F348B0C22DFE0733000C3DC2 /* PBXContainerItemProxy */ = {
+		F36A36152DFF08FE007190F5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = F348B0992DFE0731000C3DC2 /* Project object */;
+			containerPortal = F36A35EC2DFF08FC007190F5 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F348B0A02DFE0731000C3DC2;
+			remoteGlobalIDString = F36A35F32DFF08FC007190F5;
 			remoteInfo = MultiTabApp;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F348B0A12DFE0731000C3DC2 /* MultiTabApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiTabApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		F348B0B72DFE0733000C3DC2 /* MultiTabAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiTabAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F348B0C12DFE0733000C3DC2 /* MultiTabAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiTabAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F36A35F42DFF08FC007190F5 /* MultiTabApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiTabApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F36A360A2DFF08FE007190F5 /* MultiTabAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiTabAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F36A36142DFF08FE007190F5 /* MultiTabAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiTabAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		F348B0C92DFE0733000C3DC2 /* Exceptions for "MultiTabApp" folder in "MultiTabApp" target */ = {
+		F36A361C2DFF08FE007190F5 /* Exceptions for "MultiTabApp" folder in "MultiTabApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = F348B0A02DFE0731000C3DC2 /* MultiTabApp */;
+			target = F36A35F32DFF08FC007190F5 /* MultiTabApp */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		F348B0A32DFE0731000C3DC2 /* MultiTabApp */ = {
+		F36A35F62DFF08FC007190F5 /* MultiTabApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				F348B0C92DFE0733000C3DC2 /* Exceptions for "MultiTabApp" folder in "MultiTabApp" target */,
+				F36A361C2DFF08FE007190F5 /* Exceptions for "MultiTabApp" folder in "MultiTabApp" target */,
 			);
 			path = MultiTabApp;
 			sourceTree = "<group>";
 		};
-		F348B0BA2DFE0733000C3DC2 /* MultiTabAppTests */ = {
+		F36A360D2DFF08FE007190F5 /* MultiTabAppTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = MultiTabAppTests;
 			sourceTree = "<group>";
 		};
-		F348B0C42DFE0733000C3DC2 /* MultiTabAppUITests */ = {
+		F36A36172DFF08FE007190F5 /* MultiTabAppUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = MultiTabAppUITests;
 			sourceTree = "<group>";
@@ -61,21 +61,21 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		F348B09E2DFE0731000C3DC2 /* Frameworks */ = {
+		F36A35F12DFF08FC007190F5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F348B0B42DFE0733000C3DC2 /* Frameworks */ = {
+		F36A36072DFF08FE007190F5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F348B0BE2DFE0733000C3DC2 /* Frameworks */ = {
+		F36A36112DFF08FE007190F5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -85,22 +85,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F348B0982DFE0731000C3DC2 = {
+		F36A35EB2DFF08FC007190F5 = {
 			isa = PBXGroup;
 			children = (
-				F348B0A32DFE0731000C3DC2 /* MultiTabApp */,
-				F348B0BA2DFE0733000C3DC2 /* MultiTabAppTests */,
-				F348B0C42DFE0733000C3DC2 /* MultiTabAppUITests */,
-				F348B0A22DFE0731000C3DC2 /* Products */,
+				F36A35F62DFF08FC007190F5 /* MultiTabApp */,
+				F36A360D2DFF08FE007190F5 /* MultiTabAppTests */,
+				F36A36172DFF08FE007190F5 /* MultiTabAppUITests */,
+				F36A35F52DFF08FC007190F5 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		F348B0A22DFE0731000C3DC2 /* Products */ = {
+		F36A35F52DFF08FC007190F5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F348B0A12DFE0731000C3DC2 /* MultiTabApp.app */,
-				F348B0B72DFE0733000C3DC2 /* MultiTabAppTests.xctest */,
-				F348B0C12DFE0733000C3DC2 /* MultiTabAppUITests.xctest */,
+				F36A35F42DFF08FC007190F5 /* MultiTabApp.app */,
+				F36A360A2DFF08FE007190F5 /* MultiTabAppTests.xctest */,
+				F36A36142DFF08FE007190F5 /* MultiTabAppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -108,134 +108,134 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F348B0A02DFE0731000C3DC2 /* MultiTabApp */ = {
+		F36A35F32DFF08FC007190F5 /* MultiTabApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F348B0CA2DFE0733000C3DC2 /* Build configuration list for PBXNativeTarget "MultiTabApp" */;
+			buildConfigurationList = F36A361D2DFF08FE007190F5 /* Build configuration list for PBXNativeTarget "MultiTabApp" */;
 			buildPhases = (
-				F348B09D2DFE0731000C3DC2 /* Sources */,
-				F348B09E2DFE0731000C3DC2 /* Frameworks */,
-				F348B09F2DFE0731000C3DC2 /* Resources */,
+				F36A35F02DFF08FC007190F5 /* Sources */,
+				F36A35F12DFF08FC007190F5 /* Frameworks */,
+				F36A35F22DFF08FC007190F5 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				F348B0A32DFE0731000C3DC2 /* MultiTabApp */,
+				F36A35F62DFF08FC007190F5 /* MultiTabApp */,
 			);
 			name = MultiTabApp;
 			packageProductDependencies = (
 			);
 			productName = MultiTabApp;
-			productReference = F348B0A12DFE0731000C3DC2 /* MultiTabApp.app */;
+			productReference = F36A35F42DFF08FC007190F5 /* MultiTabApp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F348B0B62DFE0733000C3DC2 /* MultiTabAppTests */ = {
+		F36A36092DFF08FE007190F5 /* MultiTabAppTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F348B0CF2DFE0733000C3DC2 /* Build configuration list for PBXNativeTarget "MultiTabAppTests" */;
+			buildConfigurationList = F36A36222DFF08FE007190F5 /* Build configuration list for PBXNativeTarget "MultiTabAppTests" */;
 			buildPhases = (
-				F348B0B32DFE0733000C3DC2 /* Sources */,
-				F348B0B42DFE0733000C3DC2 /* Frameworks */,
-				F348B0B52DFE0733000C3DC2 /* Resources */,
+				F36A36062DFF08FE007190F5 /* Sources */,
+				F36A36072DFF08FE007190F5 /* Frameworks */,
+				F36A36082DFF08FE007190F5 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				F348B0B92DFE0733000C3DC2 /* PBXTargetDependency */,
+				F36A360C2DFF08FE007190F5 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				F348B0BA2DFE0733000C3DC2 /* MultiTabAppTests */,
+				F36A360D2DFF08FE007190F5 /* MultiTabAppTests */,
 			);
 			name = MultiTabAppTests;
 			packageProductDependencies = (
 			);
 			productName = MultiTabAppTests;
-			productReference = F348B0B72DFE0733000C3DC2 /* MultiTabAppTests.xctest */;
+			productReference = F36A360A2DFF08FE007190F5 /* MultiTabAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		F348B0C02DFE0733000C3DC2 /* MultiTabAppUITests */ = {
+		F36A36132DFF08FE007190F5 /* MultiTabAppUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F348B0D22DFE0733000C3DC2 /* Build configuration list for PBXNativeTarget "MultiTabAppUITests" */;
+			buildConfigurationList = F36A36252DFF08FE007190F5 /* Build configuration list for PBXNativeTarget "MultiTabAppUITests" */;
 			buildPhases = (
-				F348B0BD2DFE0733000C3DC2 /* Sources */,
-				F348B0BE2DFE0733000C3DC2 /* Frameworks */,
-				F348B0BF2DFE0733000C3DC2 /* Resources */,
+				F36A36102DFF08FE007190F5 /* Sources */,
+				F36A36112DFF08FE007190F5 /* Frameworks */,
+				F36A36122DFF08FE007190F5 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				F348B0C32DFE0733000C3DC2 /* PBXTargetDependency */,
+				F36A36162DFF08FE007190F5 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				F348B0C42DFE0733000C3DC2 /* MultiTabAppUITests */,
+				F36A36172DFF08FE007190F5 /* MultiTabAppUITests */,
 			);
 			name = MultiTabAppUITests;
 			packageProductDependencies = (
 			);
 			productName = MultiTabAppUITests;
-			productReference = F348B0C12DFE0733000C3DC2 /* MultiTabAppUITests.xctest */;
+			productReference = F36A36142DFF08FE007190F5 /* MultiTabAppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		F348B0992DFE0731000C3DC2 /* Project object */ = {
+		F36A35EC2DFF08FC007190F5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
-					F348B0A02DFE0731000C3DC2 = {
+					F36A35F32DFF08FC007190F5 = {
 						CreatedOnToolsVersion = 16.4;
 					};
-					F348B0B62DFE0733000C3DC2 = {
+					F36A36092DFF08FE007190F5 = {
 						CreatedOnToolsVersion = 16.4;
-						TestTargetID = F348B0A02DFE0731000C3DC2;
+						TestTargetID = F36A35F32DFF08FC007190F5;
 					};
-					F348B0C02DFE0733000C3DC2 = {
+					F36A36132DFF08FE007190F5 = {
 						CreatedOnToolsVersion = 16.4;
-						TestTargetID = F348B0A02DFE0731000C3DC2;
+						TestTargetID = F36A35F32DFF08FC007190F5;
 					};
 				};
 			};
-			buildConfigurationList = F348B09C2DFE0731000C3DC2 /* Build configuration list for PBXProject "MultiTabApp" */;
+			buildConfigurationList = F36A35EF2DFF08FC007190F5 /* Build configuration list for PBXProject "MultiTabApp" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = F348B0982DFE0731000C3DC2;
+			mainGroup = F36A35EB2DFF08FC007190F5;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = F348B0A22DFE0731000C3DC2 /* Products */;
+			productRefGroup = F36A35F52DFF08FC007190F5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F348B0A02DFE0731000C3DC2 /* MultiTabApp */,
-				F348B0B62DFE0733000C3DC2 /* MultiTabAppTests */,
-				F348B0C02DFE0733000C3DC2 /* MultiTabAppUITests */,
+				F36A35F32DFF08FC007190F5 /* MultiTabApp */,
+				F36A36092DFF08FE007190F5 /* MultiTabAppTests */,
+				F36A36132DFF08FE007190F5 /* MultiTabAppUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		F348B09F2DFE0731000C3DC2 /* Resources */ = {
+		F36A35F22DFF08FC007190F5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F348B0B52DFE0733000C3DC2 /* Resources */ = {
+		F36A36082DFF08FE007190F5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F348B0BF2DFE0733000C3DC2 /* Resources */ = {
+		F36A36122DFF08FE007190F5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -245,21 +245,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		F348B09D2DFE0731000C3DC2 /* Sources */ = {
+		F36A35F02DFF08FC007190F5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F348B0B32DFE0733000C3DC2 /* Sources */ = {
+		F36A36062DFF08FE007190F5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F348B0BD2DFE0733000C3DC2 /* Sources */ = {
+		F36A36102DFF08FE007190F5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -269,20 +269,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		F348B0B92DFE0733000C3DC2 /* PBXTargetDependency */ = {
+		F36A360C2DFF08FE007190F5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F348B0A02DFE0731000C3DC2 /* MultiTabApp */;
-			targetProxy = F348B0B82DFE0733000C3DC2 /* PBXContainerItemProxy */;
+			target = F36A35F32DFF08FC007190F5 /* MultiTabApp */;
+			targetProxy = F36A360B2DFF08FE007190F5 /* PBXContainerItemProxy */;
 		};
-		F348B0C32DFE0733000C3DC2 /* PBXTargetDependency */ = {
+		F36A36162DFF08FE007190F5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F348B0A02DFE0731000C3DC2 /* MultiTabApp */;
-			targetProxy = F348B0C22DFE0733000C3DC2 /* PBXContainerItemProxy */;
+			target = F36A35F32DFF08FC007190F5 /* MultiTabApp */;
+			targetProxy = F36A36152DFF08FE007190F5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		F348B0CB2DFE0733000C3DC2 /* Debug */ = {
+		F36A361E2DFF08FE007190F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -294,7 +294,6 @@
 				INFOPLIST_FILE = MultiTabApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -310,7 +309,7 @@
 			};
 			name = Debug;
 		};
-		F348B0CC2DFE0733000C3DC2 /* Release */ = {
+		F36A361F2DFF08FE007190F5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -322,7 +321,6 @@
 				INFOPLIST_FILE = MultiTabApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -338,7 +336,7 @@
 			};
 			name = Release;
 		};
-		F348B0CD2DFE0733000C3DC2 /* Debug */ = {
+		F36A36202DFF08FE007190F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -402,7 +400,7 @@
 			};
 			name = Debug;
 		};
-		F348B0CE2DFE0733000C3DC2 /* Release */ = {
+		F36A36212DFF08FE007190F5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -459,7 +457,7 @@
 			};
 			name = Release;
 		};
-		F348B0D02DFE0733000C3DC2 /* Debug */ = {
+		F36A36232DFF08FE007190F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -478,7 +476,7 @@
 			};
 			name = Debug;
 		};
-		F348B0D12DFE0733000C3DC2 /* Release */ = {
+		F36A36242DFF08FE007190F5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -497,7 +495,7 @@
 			};
 			name = Release;
 		};
-		F348B0D32DFE0733000C3DC2 /* Debug */ = {
+		F36A36262DFF08FE007190F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -514,7 +512,7 @@
 			};
 			name = Debug;
 		};
-		F348B0D42DFE0733000C3DC2 /* Release */ = {
+		F36A36272DFF08FE007190F5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -534,43 +532,43 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F348B09C2DFE0731000C3DC2 /* Build configuration list for PBXProject "MultiTabApp" */ = {
+		F36A35EF2DFF08FC007190F5 /* Build configuration list for PBXProject "MultiTabApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F348B0CD2DFE0733000C3DC2 /* Debug */,
-				F348B0CE2DFE0733000C3DC2 /* Release */,
+				F36A36202DFF08FE007190F5 /* Debug */,
+				F36A36212DFF08FE007190F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F348B0CA2DFE0733000C3DC2 /* Build configuration list for PBXNativeTarget "MultiTabApp" */ = {
+		F36A361D2DFF08FE007190F5 /* Build configuration list for PBXNativeTarget "MultiTabApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F348B0CB2DFE0733000C3DC2 /* Debug */,
-				F348B0CC2DFE0733000C3DC2 /* Release */,
+				F36A361E2DFF08FE007190F5 /* Debug */,
+				F36A361F2DFF08FE007190F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F348B0CF2DFE0733000C3DC2 /* Build configuration list for PBXNativeTarget "MultiTabAppTests" */ = {
+		F36A36222DFF08FE007190F5 /* Build configuration list for PBXNativeTarget "MultiTabAppTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F348B0D02DFE0733000C3DC2 /* Debug */,
-				F348B0D12DFE0733000C3DC2 /* Release */,
+				F36A36232DFF08FE007190F5 /* Debug */,
+				F36A36242DFF08FE007190F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F348B0D22DFE0733000C3DC2 /* Build configuration list for PBXNativeTarget "MultiTabAppUITests" */ = {
+		F36A36252DFF08FE007190F5 /* Build configuration list for PBXNativeTarget "MultiTabAppUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F348B0D32DFE0733000C3DC2 /* Debug */,
-				F348B0D42DFE0733000C3DC2 /* Release */,
+				F36A36262DFF08FE007190F5 /* Debug */,
+				F36A36272DFF08FE007190F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = F348B0992DFE0731000C3DC2 /* Project object */;
+	rootObject = F36A35EC2DFF08FC007190F5 /* Project object */;
 }
