@@ -144,7 +144,7 @@ final class Task3ViewController: UIViewController {
         bodyLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
@@ -193,6 +193,7 @@ final class Task3ViewController: UIViewController {
     }
     
     deinit {
+        // clean up our observers 
         NotificationCenter.default.removeObserver(self)
     }
 }
