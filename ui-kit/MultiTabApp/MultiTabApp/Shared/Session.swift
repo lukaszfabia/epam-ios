@@ -9,6 +9,16 @@ import Foundation
 class Session {
     static let shared = Session()
    
-    static var user = User()
+    /// saved user
+    var user = User()
+    
+    /// used for collect data during onboarding process
+    var temporaryUser = User()
     private init(){}
+    
+    
+    func create() {
+        print("Creating new user...")
+        self.user = self.temporaryUser
+    }
 }

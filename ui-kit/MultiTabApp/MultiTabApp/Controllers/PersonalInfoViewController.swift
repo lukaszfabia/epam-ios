@@ -102,10 +102,10 @@ class PersonalInfoViewController: BaseViewController {
     }
     
     private func defaultValuesIfExists() {
-        let name = Session.user.name ?? ""
+        let name = Session.shared.temporaryUser.name ?? ""
         nameField.text = name
         
-        let phone = Session.user.phone ?? ""
+        let phone = Session.shared.temporaryUser.phone ?? ""
         phoneField.text = phone
     }
     
@@ -155,7 +155,7 @@ class PersonalInfoViewController: BaseViewController {
             let phone = phoneField.text,
             let name = nameField.text else {return}
         
-        Session.user.setUserDetails(name: name, phone: phone)
+        Session.shared.temporaryUser.setUserDetails(name: name, phone: phone)
         
         createConfirmationAlert(for: name, with: phone)
     }

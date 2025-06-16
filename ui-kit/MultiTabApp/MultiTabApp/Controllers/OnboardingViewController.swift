@@ -15,16 +15,26 @@ class OnboardingViewController: BaseViewController {
         super.viewDidLoad()
         title = name
         setupGettingStartedButton()
+        chooseColorAndText()
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        chooseColorAndText()
+    }
+    
+    private func chooseColorAndText() {
+        let exists = Session.shared.user.exists
+        gettingStartedButton.setTitle(exists ? "Restart" : "Start", for: .normal)
+        gettingStartedButton.backgroundColor = exists ? .systemGreen : .systemBlue
     }
     
     private func setupGettingStartedButton() {
         view.addSubview(gettingStartedButton)
         gettingStartedButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let exists = Session.user.exists
-        
-        gettingStartedButton.setTitle(exists ? "Restart" : "Start", for: .normal)
-        gettingStartedButton.backgroundColor = exists ? .systemGreen : .systemBlue
         
         gettingStartedButton.setTitleColor(.white, for: .normal)
         gettingStartedButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .medium)
@@ -44,7 +54,7 @@ class OnboardingViewController: BaseViewController {
         let next = PersonalInfoViewController()
         next.title = next.name
         
-        Session.user.clearMe()
+        Session.shared.user.clearMe()
         
         navigationController?.pushViewController(next, animated: true)
     }

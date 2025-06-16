@@ -26,7 +26,9 @@ class ConfirmDetailsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = name 
+        
+        title = name
+        
         disableBack()
         setupConfirmButton()
         setupContainer()
@@ -45,12 +47,14 @@ class ConfirmDetailsViewController: BaseViewController {
     @objc private func confirmNavigation() {
         let successAlert = UIAlertController(
             title: "Success",
-            message: "Congrats! \(Session.user.name ?? ""), your profile has been created.",
+            message: "Congrats! \(Session.shared.temporaryUser.name ?? ""), successfully passed onboarding process.",
             preferredStyle: .alert
         )
 
         successAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         successAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+            Session.shared.create()
+            
             let start = OnboardingViewController()
             self.navigationController?.setViewControllers([start], animated: true)
         }))
@@ -106,12 +110,12 @@ class ConfirmDetailsViewController: BaseViewController {
             container.addSubview($0)
         }
 
-        nameLabel.text = Session.user.name
+        nameLabel.text = Session.shared.temporaryUser.name
         nameLabel.font = .systemFont(ofSize: 25, weight: .bold)
         nameLabel.textColor = .systemGray
         nameLabel.textAlignment = .left
 
-        phoneLabel.text = Session.user.phone
+        phoneLabel.text = Session.shared.temporaryUser.phone
         phoneLabel.font = .systemFont(ofSize: 16, weight: .light)
         phoneLabel.textColor = .systemGray
         phoneLabel.textAlignment = .left
@@ -121,7 +125,7 @@ class ConfirmDetailsViewController: BaseViewController {
         preferenceInfoLabel.textColor = .systemGray
         preferenceInfoLabel.textAlignment = .left
 
-        preferenceLabel.text = Session.user.preferences?.name
+        preferenceLabel.text = Session.shared.temporaryUser.preferences?.name ?? "None"
         preferenceLabel.font = .systemFont(ofSize: 16, weight: .heavy)
         preferenceLabel.textColor = .systemGray
         preferenceLabel.textAlignment = .left

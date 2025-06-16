@@ -37,7 +37,7 @@ class PreferencesViewController: BaseViewController {
 
     
     private func defaultValueIfExists() {
-        let preference = Session.user.preferences ?? .none
+        let preference = Session.shared.temporaryUser.preferences ?? .none
         
         preferenceInfo.text = preference == .none ? "Not selected" :"Selected \(preference.name)"
     }
@@ -114,6 +114,6 @@ class PreferencesViewController: BaseViewController {
     private func savePreference(_ preference: User.Preference) {
         preferenceInfo.text = preference == .none ? "Not selected" :"Selected \(preference.name)"
         
-        Session.user.setPreference(preference)
+        Session.shared.temporaryUser.setPreference(preference)
     }
 }

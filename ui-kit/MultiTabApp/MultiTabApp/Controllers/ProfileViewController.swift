@@ -23,6 +23,8 @@ class ProfileViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        nameLabel.text = Session.shared.user.name ?? "Default"
         print("[ProfileViewController]: viewWillAppear")
     }
 
@@ -81,7 +83,7 @@ class ProfileViewController: BaseViewController {
             let newName = alert.textFields?.first?.text?.trimmingCharacters(in: .whitespacesAndNewlines)
             if let name = newName, !name.isEmpty {
                 self.nameLabel.text = name
-                Session.user.name = name
+                Session.shared.user.name = name
             } else {
                 self.nameLabel.text = "Default"
             }
@@ -95,7 +97,7 @@ class ProfileViewController: BaseViewController {
 
     @objc private func setAnonymousName() {
         nameLabel.text = "Anonymous"
-        Session.user.clearMe()
+        Session.shared.user.clearMe()
     }
 
     
@@ -130,7 +132,7 @@ class ProfileViewController: BaseViewController {
         view.addSubview(nameLabel)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        nameLabel.text = Session.user.name ?? "Default"
+        nameLabel.text = Session.shared.user.name ?? "Default"
         
         nameLabel.font = .systemFont(ofSize: 40, weight: .heavy)
         

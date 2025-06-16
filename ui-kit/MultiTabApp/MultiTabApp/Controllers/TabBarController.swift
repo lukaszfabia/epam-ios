@@ -10,14 +10,15 @@ import UIKit
 class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTabs()
+        
         setupBar()
+        setupTabs()
     }
     
     private func setupBar() {
         tabBar.backgroundColor = .systemOrange
         tabBar.tintColor = .white
-        tabBar.unselectedItemTintColor = .gray
+        tabBar.unselectedItemTintColor = .systemGray
 
     }
     
