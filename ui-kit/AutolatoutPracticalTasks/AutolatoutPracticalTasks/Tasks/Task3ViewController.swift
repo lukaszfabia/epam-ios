@@ -31,6 +31,11 @@ final class Task3ViewController: UIViewController {
 
     private let contentView = UIView()
     
+    private struct Config {
+        let duration: Double
+        let keyboardHeight: CGFloat
+    }
+    
     /// for moving container up and down when keyboard shows and disappears
     private var contentViewBottom: NSLayoutConstraint!
     
@@ -68,38 +73,36 @@ final class Task3ViewController: UIViewController {
         )
     }
     
-    private func getKeyboardConfig(_ n: Notification) -> (CGFloat?, Double?) {
+    private func getKeyboardConfig(_ n: Notification) -> Config? {
         // get user info
-        guard let userInfo = n.userInfo else {return (nil, nil)}
+        guard let userInfo = n.userInfo else {return nil}
         
         // get keyboard props
-        guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {return (nil, nil)}
+        guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {return nil}
         
         // get animation duration
         guard let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
-        else {return (nil, nil)}
+        else {return nil}
         
-        return (keyboardFrame.height, duration)
+        return Config(duration: duration, keyboardHeight: keyboardFrame.height)
     }
     
     @objc private func keyboardWillShow(notification: Notification) {
-        let (keyboardHeightOpt, durationOpt) = getKeyboardConfig(notification)
-        guard let keyboardHeight = keyboardHeightOpt, let duration = durationOpt else { return }
+        guard let config = getKeyboardConfig(notification) else {return}
 
-        UIView.animate(withDuration: duration) {
-            self.contentViewBottom.constant = -keyboardHeight
+        UIView.animate(withDuration: config.duration) {
+            self.contentViewBottom.constant = -config.keyboardHeight
             self.view.layoutIfNeeded()
         }
 
     }
     
     @objc private func keyboardWillHide(notification: Notification) {
-        let (_, durationOpt) = getKeyboardConfig(notification)
-        guard let duration = durationOpt else { return }
-        
-        UIView.animate(withDuration: duration) {
+        guard let config = getKeyboardConfig(notification) else {return}
+
+        UIView.animate(withDuration: config.duration) {
             self.contentViewBottom.constant = 0
-            self.view.layoutIfNeeded() // used to reverse animation, without it keyboard closes immed
+            self.view.layoutIfNeeded()
         }
     }
     
