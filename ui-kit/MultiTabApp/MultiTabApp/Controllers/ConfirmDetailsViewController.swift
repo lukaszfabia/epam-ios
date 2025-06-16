@@ -199,6 +199,8 @@ class ConfirmDetailsViewController: BaseViewController {
     }
 
     @objc private func restartProcess() {
+        Session.shared.temporaryUser.clearMe()
+        
         let onboarding = OnboardingViewController()
         navigationController?.setViewControllers([onboarding], animated: true)
     }
