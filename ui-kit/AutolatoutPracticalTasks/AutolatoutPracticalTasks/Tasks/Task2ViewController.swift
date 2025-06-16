@@ -11,8 +11,8 @@ import UIKit
 // The button should be centered horizontally and have a fixed distance from the label.
 // Adjust the layout to handle different screen sizes.
 final class Task2ViewController: UIViewController {    
-    let button = UIButton()
-    let label = UILabel()
+    private let button = UIButton()
+    private let label = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()

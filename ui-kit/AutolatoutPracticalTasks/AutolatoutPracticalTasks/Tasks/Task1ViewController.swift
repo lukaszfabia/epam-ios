@@ -15,7 +15,9 @@ final class Task1ViewController: UIViewController {
         let label = UILabel()
         label.text = "Label here"
         label.backgroundColor = .white
+        
         // added
+        label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(label)
