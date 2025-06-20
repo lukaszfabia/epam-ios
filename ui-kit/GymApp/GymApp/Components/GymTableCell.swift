@@ -9,7 +9,7 @@ import UIKit
 
 final class GymTableCell: UITableViewCell {
     
-    // MARK: - Properties
+    // MARK: Properties
     weak var delegateForAlerts: GymCellAlertDisplaying?
     private var gymClass: GymClass?
     
@@ -51,7 +51,7 @@ final class GymTableCell: UITableViewCell {
         return stack
     }()
     
-    // MARK: - UI Components
+    // MARK: UI Components
     private let containerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -112,7 +112,7 @@ final class GymTableCell: UITableViewCell {
         return button
     }()
     
-    // MARK: - Lifecycle
+    // MARK: Lifecycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
@@ -135,7 +135,6 @@ final class GymTableCell: UITableViewCell {
         updateButtons(with: gymClass)
     }
     
-    // MARK: - Private Methods
     private func setupView() {
         selectionStyle = .blue
         contentView.addSubview(containerView)
