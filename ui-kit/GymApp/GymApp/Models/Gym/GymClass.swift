@@ -29,11 +29,11 @@ final class GymClass {
         self.trainer = trainer
     }
 
-    func setIsRegistered() {
+    func toggleIsRegister() {
         isRegistered.toggle()
     }
 
-    func setIsFav() {
+    func toggleIsFav() {
         isFav.toggle()
     }
 
@@ -57,23 +57,19 @@ final class GymClass {
         }
 
         return [
-            // 19 czerwca
             GymClass(className: .Pilates,  date: makeDate(day: 19, hour: 8,  minute: 30), duration: 45, trainer: Trainer.dummy()),
             GymClass(className: .Yoga,     date: makeDate(day: 19, hour: 10, minute: 0),  duration: 60, trainer: Trainer.dummy()),
             GymClass(className: .Zumba,    date: makeDate(day: 19, hour: 17, minute: 0),  duration: 30, trainer: Trainer.dummy()),
             GymClass(className: .Streching,date: makeDate(day: 19, hour: 18, minute: 0),  duration: 40, trainer: Trainer.dummy()),
-            
-            // 20 czerwca
+
             GymClass(className: .Yoga,     date: makeDate(day: 20, hour: 9,  minute: 30), duration: 60, trainer: Trainer.dummy()),
             GymClass(className: .Pilates,  date: makeDate(day: 20, hour: 12, minute: 0),  duration: 45, trainer: Trainer.dummy()),
             GymClass(className: .Zumba,    date: makeDate(day: 20, hour: 16, minute: 15), duration: 30, trainer: Trainer.dummy()),
-            
-            // 21 czerwca
+ 
             GymClass(className: .Streching,date: makeDate(day: 21, hour: 8,  minute: 45), duration: 40, trainer: Trainer.dummy()),
             GymClass(className: .Yoga,     date: makeDate(day: 21, hour: 11, minute: 0),  duration: 60, trainer: Trainer.dummy()),
             GymClass(className: .Zumba,    date: makeDate(day: 21, hour: 14, minute: 0),  duration: 30, trainer: Trainer.dummy()),
-            
-            // 22 czerwca
+
             GymClass(className: .Pilates,  date: makeDate(day: 22, hour: 7,  minute: 15), duration: 45, trainer: Trainer.dummy()),
             GymClass(className: .Yoga,     date: makeDate(day: 22, hour: 10, minute: 30), duration: 60, trainer: Trainer.dummy()),
             GymClass(className: .Streching,date: makeDate(day: 22, hour: 16, minute: 0),  duration: 40, trainer: Trainer.dummy())

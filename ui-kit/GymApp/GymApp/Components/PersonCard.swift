@@ -8,10 +8,12 @@ import UIKit
 
 class PersonCard: UIView {
 
-    private let container: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private let hstack: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.spacing = 6
+        stack.axis = .horizontal
+        return stack
     }()
 
     private let fullnameLabel: UILabel = {
@@ -41,24 +43,13 @@ class PersonCard: UIView {
     }
 
     private func setupUI() {
-        addSubview(container)
-        container.addSubview(avatarImage)
-        container.addSubview(fullnameLabel)
+        addSubview(hstack)
+        hstack.addArrangedSubview(avatarImage)
+        hstack.addArrangedSubview(fullnameLabel)
 
         NSLayoutConstraint.activate([
-            container.topAnchor.constraint(equalTo: topAnchor),
-            container.bottomAnchor.constraint(equalTo: bottomAnchor),
-            container.leadingAnchor.constraint(equalTo: leadingAnchor),
-            container.trailingAnchor.constraint(equalTo: trailingAnchor),
-
-            avatarImage.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            avatarImage.centerYAnchor.constraint(equalTo: container.centerYAnchor),
             avatarImage.widthAnchor.constraint(equalToConstant: 20),
-            avatarImage.heightAnchor.constraint(equalToConstant: 20),
-
-            fullnameLabel.leadingAnchor.constraint(equalTo: avatarImage.trailingAnchor, constant: 12),
-            fullnameLabel.centerYAnchor.constraint(equalTo: avatarImage.centerYAnchor),
-            fullnameLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor)
+            avatarImage.heightAnchor.constraint(equalTo: avatarImage.widthAnchor)
         ])
     }
 

@@ -7,15 +7,52 @@
 
 import UIKit
 
-protocol GymTableCellDelegate: AnyObject {
-    func gymTableCell(_ cell: GymTableCell, showAlertWithTitle title: String, message: String)
-}
-
-class GymTableCell: UITableViewCell {
+final class GymTableCell: UITableViewCell {
     
-    weak var delegateForAlerts: GymTableCellDelegate?
+    // MARK: - Properties
+    weak var delegateForAlerts: GymCellAlertDisplaying?
+    private var gymClass: GymClass?
     
-    private let container: UIView =  {
+    // MARK: Stacks
+    
+    private let timeVStack: UIStackView = {
+       let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.alignment = .center
+        stack.spacing = 6
+        return stack
+    }()
+    
+    private let detailsVStack: UIStackView = {
+       let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.alignment = .leading
+        stack.spacing = 6
+        return stack
+    }()
+    
+    private let mainHStack: UIStackView = {
+       let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.alignment = .leading
+        stack.spacing = 14
+        return stack
+    }()
+    
+    private let classNameHStack: UIStackView = {
+       let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.alignment = .leading
+        stack.spacing = 4
+        return stack
+    }()
+    
+    // MARK: - UI Components
+    private let containerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.clipsToBounds = true
@@ -37,25 +74,18 @@ class GymTableCell: UITableViewCell {
         label.textColor = .systemPurple
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 15, weight: .light)
-
         return label
     }()
     
     private let favButton: UIButton = {
         let button = UIButton()
         let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular)
-        
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .systemRed
-        
         button.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
         button.setImage(UIImage(systemName: "heart.fill", withConfiguration: config), for: .selected)
-
-        button.backgroundColor = .clear
-
         return button
     }()
-
     
     private let classLabel: UILabel = {
         let label = UILabel()
@@ -65,142 +95,123 @@ class GymTableCell: UITableViewCell {
     }()
     
     private let trainerCard: PersonCard = {
-        let personCard = PersonCard()
-        personCard.translatesAutoresizingMaskIntoConstraints = false
-        return personCard
+        let card = PersonCard()
+        card.translatesAutoresizingMaskIntoConstraints = false
+        return card
     }()
     
-    private let addOrCancelButton: UIButton = {
-        let btn = UIButton(type: .system)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.layer.borderWidth = 1.0
-        btn.clipsToBounds = true
-        btn.layer.borderColor = UIColor.label.cgColor
-        btn.tintColor = .label
-        btn.backgroundColor = .clear
-        btn.setImage(UIImage(systemName: "plus"), for: .normal)
-        return btn
+    private let actionButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.borderWidth = 1.0
+        button.clipsToBounds = true
+        button.layer.borderColor = UIColor.label.cgColor
+        button.tintColor = .label
+        button.backgroundColor = .clear
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        return button
     }()
     
-    private var gymClass: GymClass?
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        addOrCancelButton.layer.cornerRadius = addOrCancelButton.bounds.width / 2
-    }
-    
+    // MARK: - Lifecycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .none
-        setupUI()
-        setupHandlers()
-    }
-    
-    func use(with cls: GymClass) {
-        gymClass = cls
-        
-        trainerCard.use(with: cls.trainer)
-        
-        initLabelStates(cls)
-        initButtonStates(cls)
+        setupView()
+        setupActions()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupHandlers() {
-        addOrCancelButton.addTarget(self, action: #selector(toggleAdd), for: .touchUpInside)
-        favButton.addTarget(self, action: #selector(toggleFav), for: .touchUpInside)
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        actionButton.layer.cornerRadius = actionButton.bounds.width / 2
     }
     
-    private func initLabelStates(_ cls: GymClass) {
-        timeLabel.text = cls.time
-        durationLabel.text = "\(cls.duration)m"
-        classLabel.text = cls.className.rawValue
+    func use(with gymClass: GymClass) {
+        self.gymClass = gymClass
+        trainerCard.use(with: gymClass.trainer)
+        updateLabels(with: gymClass)
+        updateButtons(with: gymClass)
     }
     
-    private func initButtonStates(_ cls: GymClass) {
-        let plusOrX = cls.isRegistered ? "xmark" : "plus"
-        addOrCancelButton.setImage(UIImage(systemName: plusOrX), for: .normal)
-        addOrCancelButton.tintColor = cls.isRegistered ? .white : .label
-        addOrCancelButton.backgroundColor = cls.isRegistered ? .systemPink : .clear
-        addOrCancelButton.layer.borderWidth = cls.isRegistered ? 0 : 1
-        addOrCancelButton.layer.borderColor = cls.isRegistered ? UIColor.clear.cgColor : UIColor.label.cgColor
+    // MARK: - Private Methods
+    private func setupView() {
+        selectionStyle = .blue
+        contentView.addSubview(containerView)
         
-        favButton.isSelected = cls.isFav
-    }
+        containerView.addSubview(actionButton)
+        containerView.addSubview(mainHStack)
+        mainHStack.addArrangedSubview(timeVStack)
+        mainHStack.addArrangedSubview(detailsVStack)
+        
+        timeVStack.addArrangedSubview(timeLabel)
+        timeVStack.addArrangedSubview(durationLabel)
+        
+        detailsVStack.addArrangedSubview(classNameHStack)
+        detailsVStack.addArrangedSubview(trainerCard)
     
-    private func setupUI() {
-        contentView.addSubview(container)
-        container.addSubview(trainerCard)
-        container.addSubview(timeLabel)
-        container.addSubview(classLabel)
-        container.addSubview(durationLabel)
-        container.addSubview(addOrCancelButton)
-        container.addSubview(favButton)
+        classNameHStack.addArrangedSubview(favButton)
+        classNameHStack.addArrangedSubview(classLabel)
+        
         
         NSLayoutConstraint.activate([
-            container.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            container.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            container.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            container.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+        
+            mainHStack.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            mainHStack.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             
-            timeLabel.topAnchor.constraint(equalTo: container.topAnchor, constant: 10),
-            timeLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 10),
+            favButton.centerYAnchor.constraint(equalTo: classNameHStack.centerYAnchor),
             
-            durationLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 5),
-            durationLabel.centerXAnchor.constraint(equalTo: timeLabel.centerXAnchor),
-            durationLabel.trailingAnchor.constraint(equalTo: timeLabel.trailingAnchor),
-            
-            favButton.leadingAnchor.constraint(equalTo: timeLabel.trailingAnchor, constant: 12),
-            favButton.topAnchor.constraint(equalTo: container.topAnchor, constant: 10),
-            favButton.widthAnchor.constraint(equalToConstant: 30),
-            favButton.heightAnchor.constraint(equalToConstant: 30),
-            
-            classLabel.leadingAnchor.constraint(equalTo: favButton.trailingAnchor, constant: 8),
-            classLabel.centerYAnchor.constraint(equalTo: favButton.centerYAnchor),
-            classLabel.heightAnchor.constraint(equalTo: favButton.heightAnchor),
-            
-            trainerCard.topAnchor.constraint(equalTo: favButton.bottomAnchor, constant: 15),
-            trainerCard.leadingAnchor.constraint(equalTo: favButton.leadingAnchor, constant: 5),
-            trainerCard.trailingAnchor.constraint(equalTo: classLabel.trailingAnchor),
-
-            
-            addOrCancelButton.centerYAnchor.constraint(equalTo: container.centerYAnchor),
-            addOrCancelButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -10),
-            addOrCancelButton.widthAnchor.constraint(equalToConstant: 50),
-            addOrCancelButton.heightAnchor.constraint(equalToConstant: 50),
+            actionButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            actionButton.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            actionButton.widthAnchor.constraint(equalToConstant: 44),
+            actionButton.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
     
-    // MARK: button handlers
-    
-    @objc private func toggleAdd() {
-        guard let gymClass else { return }
-
-        let message = !gymClass.isRegistered ?
-            "You have registered to \(gymClass.className.rawValue), see you there!" :
-            "You have just cancelled \(gymClass.className.rawValue) :("
-
-        let title = "Information"
-
-        delegateForAlerts?.gymTableCell(self, showAlertWithTitle: title, message: message)
-
-        gymClass.setIsRegistered()
-        let isOn = gymClass.isRegistered
-        addOrCancelButton.setImage(UIImage(systemName: isOn ? "xmark" : "plus"), for: .normal)
-        addOrCancelButton.tintColor = isOn ? .white : .label
-        addOrCancelButton.backgroundColor = isOn ? .systemPink : .clear
-        addOrCancelButton.layer.borderWidth = isOn ? .zero : 1
-        addOrCancelButton.layer.borderColor = isOn ? UIColor.clear.cgColor : UIColor.label.cgColor
+    private func setupActions() {
+        actionButton.addTarget(self, action: #selector(toggleRegistration), for: .touchUpInside)
+        favButton.addTarget(self, action: #selector(toggleFavorite), for: .touchUpInside)
     }
-
     
-    @objc private func toggleFav() {
+    private func updateLabels(with gymClass: GymClass) {
+        timeLabel.text = gymClass.time
+        durationLabel.text = "\(gymClass.duration)m"
+        classLabel.text = gymClass.className.rawValue
+    }
+    
+    private func updateButtons(with gymClass: GymClass) {
+        let isRegistered = gymClass.isRegistered
+        actionButton.setImage(UIImage(systemName: isRegistered ? "xmark" : "plus"), for: .normal)
+        actionButton.tintColor = isRegistered ? .white : .label
+        actionButton.backgroundColor = isRegistered ? .systemPink : .clear
+        actionButton.layer.borderWidth = isRegistered ? 0 : 1
+        actionButton.layer.borderColor = isRegistered ? UIColor.clear.cgColor : UIColor.label.cgColor
+        
+        favButton.isSelected = gymClass.isFav
+    }
+    
+    // MARK: - Actions
+    @objc private func toggleRegistration() {
         guard let gymClass else { return }
         
-        gymClass.setIsFav()
+        gymClass.toggleIsRegister()
+        updateButtons(with: gymClass)
+        
+        let message = gymClass.isRegistered ?
+        "You have registered to \(gymClass.className.rawValue), see you there!" :
+        "You have just cancelled \(gymClass.className.rawValue) :("
+        
+        delegateForAlerts?.gymCell(self, title: "Information", message: message)
+    }
+    
+    @objc private func toggleFavorite() {
+        guard let gymClass else { return }
+        gymClass.toggleIsFav()
         favButton.isSelected = gymClass.isFav
     }
 }
