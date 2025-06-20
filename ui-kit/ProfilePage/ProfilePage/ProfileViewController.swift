@@ -185,6 +185,7 @@ class ProfileViewController: UIViewController {
     
     private func setupUI() {
         view.addSubview(mainVStack)
+        
         mainVStack.addArrangedSubview(userInfoHStack)
         
         mainVStack.addArrangedSubview(statsHStack)
