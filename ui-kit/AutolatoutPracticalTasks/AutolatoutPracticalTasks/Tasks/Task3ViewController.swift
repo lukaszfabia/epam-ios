@@ -115,18 +115,19 @@ final class Task3ViewController: UIViewController {
     
     private func setupContainerView() {
         view.addSubview(contentView)
-//        contentView.backgroundColor = .gray   //debug
         contentView.translatesAutoresizingMaskIntoConstraints = false
         
         // init pos
         contentViewBottom = contentView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        
+
         NSLayoutConstraint.activate([
+            contentView.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             contentViewBottom,
             contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
     }
+
     
     private func setupLabels() {
         contentView.addSubview(titleLabel)
