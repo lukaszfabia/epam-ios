@@ -28,7 +28,7 @@ final class Task3ViewController: UIViewController {
     private let usernameField = UITextField()
     private let passwordField = UITextField()
     private let logInButton = UIButton()
-
+    
     private let contentView = UIView()
     
     private struct Config {
@@ -48,7 +48,7 @@ final class Task3ViewController: UIViewController {
     }
     
     private func setupGestures() {
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(endEditing)))
+        view.addGestureRecognizer(.init(target: self, action: #selector(endEditing)))
     }
     
     @objc private func endEditing() {
@@ -89,17 +89,17 @@ final class Task3ViewController: UIViewController {
     
     @objc private func keyboardWillShow(notification: Notification) {
         guard let config = getKeyboardConfig(notification) else {return}
-
+        
         UIView.animate(withDuration: config.duration) {
             self.contentViewBottom.constant = -config.keyboardHeight
             self.view.layoutIfNeeded()
         }
-
+        
     }
     
     @objc private func keyboardWillHide(notification: Notification) {
         guard let config = getKeyboardConfig(notification) else {return}
-
+        
         UIView.animate(withDuration: config.duration) {
             self.contentViewBottom.constant = 0
             self.view.layoutIfNeeded()
@@ -119,15 +119,15 @@ final class Task3ViewController: UIViewController {
         
         // init pos
         contentViewBottom = contentView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-
+        
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             contentViewBottom,
             contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
     }
-
+    
     
     private func setupLabels() {
         contentView.addSubview(titleLabel)
@@ -135,21 +135,24 @@ final class Task3ViewController: UIViewController {
         
         titleLabel.text = "Sign In"
         titleLabel.font = .boldSystemFont(ofSize: 32)
-        bodyLabel.numberOfLines = 3
+        bodyLabel.numberOfLines = 0
+
         bodyLabel.text = """
         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-        sed do eiusmod tempor incididunt ut labore
+        sed do eiusmod tempor incididunt ut labore Lorem ipsum dolor sit amet, consectetur adipiscing elit,
         """
+        
+        bodyLabel.lineBreakMode = .byWordWrapping
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         bodyLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            titleLabel.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
-            bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
+            bodyLabel.topAnchor.constraint(greaterThanOrEqualTo: titleLabel.bottomAnchor, constant: 12),
             bodyLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             bodyLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
         ])
@@ -163,9 +166,15 @@ final class Task3ViewController: UIViewController {
         passwordField.placeholder = "Enter password"
         usernameField.borderStyle = .roundedRect
         passwordField.borderStyle = .roundedRect
+        passwordField.isSecureTextEntry = true
+        passwordField.clearButtonMode = .whileEditing
         
         usernameField.translatesAutoresizingMaskIntoConstraints = false
         passwordField.translatesAutoresizingMaskIntoConstraints = false
+        
+        usernameField.addTarget(self, action: #selector(startedEditing(_:)), for: .editingDidBegin)
+        
+        passwordField.addTarget(self, action: #selector(handleEnter(_:)), for: .editingDidEndOnExit)
         
         NSLayoutConstraint.activate([
             usernameField.topAnchor.constraint(equalTo: bodyLabel.bottomAnchor, constant: 40),
@@ -181,9 +190,14 @@ final class Task3ViewController: UIViewController {
     private func setupButton() {
         contentView.addSubview(logInButton)
         
-        logInButton.setTitle("Log In", for: .normal)
-        logInButton.setTitleColor(.tintColor, for: .normal)
+        var buttonConfiguration = UIButton.Configuration.filled()
+        buttonConfiguration.title = "Log In"
+        buttonConfiguration.cornerStyle = .large
+        buttonConfiguration.baseBackgroundColor = .tintColor
         
+        logInButton.configuration = buttonConfiguration
+
+        logInButton.addTarget(self, action: #selector(handleLogin(_:)), for: .touchUpInside)
         logInButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -193,8 +207,27 @@ final class Task3ViewController: UIViewController {
         ])
     }
     
+    @objc private func handleLogin(_ sender: UIButton) {
+        
+        if sender.currentTitle == "Log In" {
+            
+            UIView.animate(withDuration: 0.3) {
+                self.titleLabel.text = "Logged in"
+                self.titleLabel.layoutIfNeeded()
+            }
+        }
+    }
+    
+    @objc private func handleEnter(_ sender : UITextField) {
+        sender.resignFirstResponder()
+    }
+    
+    @objc private func startedEditing(_ sender: UITextField) {
+        print("Detected editing)")
+    }
+    
     deinit {
-        // clean up our observers 
+        // clean up our observers
         NotificationCenter.default.removeObserver(self)
     }
 }
