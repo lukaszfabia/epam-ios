@@ -27,7 +27,6 @@ class ProfileViewController: UIViewController {
     
     private let userImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
@@ -35,7 +34,6 @@ class ProfileViewController: UIViewController {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20, weight: .bold)
         return label
     }()
@@ -48,7 +46,6 @@ class ProfileViewController: UIViewController {
         config.contentInsets = .init(top: 8, leading: 16, bottom: 8, trailing: 16)
 
         let btn = UIButton(configuration: config)
-        btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle("Follow", for: .normal)
         return btn
     }()
@@ -57,7 +54,6 @@ class ProfileViewController: UIViewController {
     private let bioLabel: UILabel = {
         let label = UILabel()
         
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15, weight: .light)
         label.textColor = .secondaryLabel
         label.textAlignment = .left
@@ -72,7 +68,6 @@ class ProfileViewController: UIViewController {
         config.baseForegroundColor = .label
         let btn = UIButton(configuration: config)
         
-        btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
 
@@ -95,7 +90,6 @@ class ProfileViewController: UIViewController {
     
     private let userInfoHStack: UIStackView = {
         let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.distribution = .fill
@@ -105,7 +99,6 @@ class ProfileViewController: UIViewController {
     
     private let statsHStack: UIStackView = {
         let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.distribution = .equalSpacing
         stackView.alignment = .leading
@@ -171,7 +164,11 @@ class ProfileViewController: UIViewController {
 
     
     private func assignImage() {
-        guard let img = UIImage(named: user.avatar) else {return }
+        var img = UIImage(named: user.avatar)
+        
+        if img == nil {
+            img = UIImage(systemName: "questionmark")
+        }
         
         userImageView.image = img
         userImageView.layer.borderColor = UIColor.systemIndigo.cgColor
