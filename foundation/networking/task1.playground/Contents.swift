@@ -7,7 +7,7 @@ struct User: Codable {
             let lat : String
             let lng : String
         }
-//        address    { street: "Kulas Light", suite: "Apt. 556", city: "Gwenborough", … }
+        //        address    { street: "Kulas Light", suite: "Apt. 556", city: "Gwenborough", … }
         
         let street: String
         let suite: String
@@ -32,28 +32,54 @@ struct User: Codable {
     let company: Company
 }
 
-func printEmails(from url: String = "https://jsonplaceholder.typicode.com/users") {
-    guard let url = URL(string: url) else {return}
-    
-    var request = URLRequest(url: url)
-    
-    let task = URLSession.shared.dataTask(with: request) {data, response, error in
-        if let err = error {
-            print("An error occured during requesting data: ", err.localizedDescription)
-        }
-        
-        guard let data = data else {return}
-    
-        
-        do {
-            let users = try JSONDecoder().decode([User].self, from: data)
-            print(users.map{$0.email})
-        } catch let err {
-            print("An error occured during parsing: ", err)
-        }
-    }
-    
-    task.resume()
+enum EmailErrors: Error {
+    case failedToParse
+    case networkError
+    case unknown
+    case invalidURL
+    case noDataInPayload
+    case clientError
 }
 
-printEmails()
+func fetchEmails(from url: String = "https://jsonplaceholder.typicode.com/users") async throws -> [String] {
+    guard let url = URL(string: url) else {
+        throw EmailErrors.invalidURL
+    }
+
+    let request = URLRequest(url: url)
+
+    do {
+        let (data, response) = try await URLSession.shared.data(for: request)
+
+        guard let res = response as? HTTPURLResponse else {
+            throw EmailErrors.unknown
+        }
+
+        guard (200..<300).contains(res.statusCode) else {
+            throw EmailErrors.clientError
+        }
+
+        do {
+            let users = try JSONDecoder().decode([User].self, from: data)
+            return users.map { $0.email }
+        } catch {
+            throw EmailErrors.failedToParse
+        }
+
+    } catch is URLError {
+        throw EmailErrors.networkError
+    } catch {
+        throw EmailErrors.unknown
+    }
+}
+
+
+Task {
+    do {
+        let emails = try await fetchEmails()
+        print(emails)
+    } catch {
+        print(error.localizedDescription)
+    }
+
+}
