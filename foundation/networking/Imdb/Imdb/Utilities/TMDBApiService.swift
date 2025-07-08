@@ -11,15 +11,29 @@ import UIKit
 final class TMDBApiService {
     
     static let service = TMDBApiService()
+    private let acceptedRange = (200..<300)
     
     enum TMDBErrors: Error {
         case failedToDecode
         case invalidURL
-        case badRequest
+        case unknown
+        case networkError
+        case httpError
     }
     
     private enum AllowedMethods: String {
         case GET
+    }
+    
+    private func checkResponse(_ response: URLResponse) throws {
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw TMDBErrors.networkError
+        }
+
+        let statusCode = httpResponse.statusCode
+        guard acceptedRange.contains(statusCode) else {
+            throw TMDBErrors.httpError
+        }
     }
     
     private func prepareRequest(url: URL, page: Int? = nil) throws -> URLRequest {
@@ -44,6 +58,10 @@ final class TMDBApiService {
         return request
     }
     
+    private func setPlaceholderImage(imageView: UIImageView) {
+        imageView.image = UIImage(systemName: "xmark")?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
+    }
+    
     func loadListData<T: Decodable>(url: String = "\(EnvironmentVariables.baseUrl)/genre/movie/list") async throws -> [T] {
         guard let url = URL(string: url) else {
             throw TMDBErrors.invalidURL
@@ -53,55 +71,48 @@ final class TMDBApiService {
         
         do {
             // second school of fetching 
-            let (data, _) = try await URLSession.shared.data(for: request)
+            let (data, response) = try await URLSession.shared.data(for: request)
             
-            let decoded = try JSONDecoder().decode(ListResponseDTO<T>.self, from: data)
+            try checkResponse(response)
             
-            return decoded.items
-        } catch let err{
+            do {
+                let decoded = try JSONDecoder().decode(ListResponseDTO<T>.self, from: data)
+                
+                return decoded.items
+            } catch {
+                throw TMDBErrors.failedToDecode
+            }
+        } catch let err as URLError {
             print("Error:", err)
-            throw TMDBErrors.failedToDecode
+            throw TMDBErrors.networkError
+        } catch {
+            throw TMDBErrors.unknown
         }
     }
     
     // /tmU7GeKVybMWFButWEGl2M4GeiP.jpg
     func loadImage(endpoint: String, imageView: UIImageView) {
-        guard let url = URL(string: endpoint) else {return}
-        print("Requesting on: ", url.description)
+        guard let url = URL(string: endpoint) else {
+            setPlaceholderImage(imageView: imageView)
+            return
+        }
         
-        // first way to fetch
-        URLSession.shared.dataTask(with: URLRequest(url: url)) {data, response, error in
-        
-            if let err = error {
-                print("Error during fetching image", err)
-                
-                
-                DispatchQueue.main.async {
-                    imageView.image = UIImage(systemName: "xmark")
-                    imageView.image?.withTintColor(.systemGray)
-                }
-                
-                return
-            }
-            
-            
-            guard let data = data else {
-                DispatchQueue.main.async {
-                    imageView.image = UIImage(systemName: "xmark")
-                    imageView.image?.withTintColor(.systemGray)
-                }
-                
-                return
-            }
-            
-                
-            let image = UIImage(data: data)
-            
+        URLSession.shared.dataTask(with: url) { data, response, error in
             DispatchQueue.main.async {
+                if let error = error {
+                    print("Image fetch error:", error)
+                    self.setPlaceholderImage(imageView: imageView)
+                    return
+                }
+
+                guard let data = data, let image = UIImage(data: data) else {
+                    print("Invalid image data")
+                    self.setPlaceholderImage(imageView: imageView)
+                    return
+                }
+
                 imageView.image = image
             }
-            
-            
         }.resume()
     }
     
@@ -113,15 +124,26 @@ final class TMDBApiService {
         let request = try prepareRequest(url: url, page: page)
         
         do {
-            let (data, _) = try await URLSession.shared.data(for: request)
-            print(String(decoding: data, as: UTF8.self))
+            let (data, response) = try await URLSession.shared.data(for: request)
             
+
+            try checkResponse(response)
       
-            let wrapper = try JSONDecoder().decode(PaginatedReponseDTO<T>.self, from: data)
-            return wrapper.results
-        } catch {
-            print("Decoding error: \(error)")
-            throw TMDBErrors.failedToDecode
+            do {
+                let wrapper = try JSONDecoder().decode(PaginatedReponseDTO<T>.self, from: data)
+                return wrapper.results
+            } catch {
+                print("Decoding error: \(error)")
+                throw TMDBErrors.failedToDecode
+            }
+        }
+        catch let err as URLError {
+            print("Net error")
+            throw TMDBErrors.networkError
+        }
+        catch let err {
+            print("Error", err.localizedDescription)
+            throw TMDBErrors.unknown
         }
     }
 
