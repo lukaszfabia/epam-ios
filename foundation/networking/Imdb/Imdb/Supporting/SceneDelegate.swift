@@ -24,8 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         navController.navigationBar.prefersLargeTitles = true
         
-        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
-        window?.windowScene = windowScene
+        window = UIWindow(windowScene: windowScene)
         window?.rootViewController = navController
         window?.makeKeyAndVisible()
     }

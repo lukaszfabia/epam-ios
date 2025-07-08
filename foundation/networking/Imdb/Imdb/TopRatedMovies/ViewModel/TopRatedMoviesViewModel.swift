@@ -16,6 +16,8 @@ final class TopRatedMoviesViewModel {
     var onLoadingMore: ((Bool) -> Void)?
     var onError: ((Error?) -> Void)?
     
+    var genresDict: [Int: String] = [:]
+
     
     var topRatedMovies: [Movie] = [] {
         didSet {
@@ -47,24 +49,48 @@ final class TopRatedMoviesViewModel {
         topRatedMovies.count
     }
     
+    init() {
+        fetchGenres()
+    }
     
-    func fetchTopMovies() {
+    func fetchGenres() {
         isLoading = true
-        
         
         Task {
             
             defer {isLoading = false}
             
             do {
-                topRatedMovies.append(contentsOf: try await TMDBApiService.service.get())
-            } catch let err {
+                let genres: [Genre] = try await TMDBApiService.service.loadListData()
+                genresDict = Dictionary(uniqueKeysWithValues: genres.map { ($0.id, $0.name) })
+
+            } catch let err  {
                 error = err
             }
         }
     }
     
+    func fetchTopMovies() {
+        isLoading = true
+
+        Task {
+            defer { isLoading = false }
+
+            do {
+                let movies: [Movie] = try await TMDBApiService.service.get()
+                topRatedMovies = movies
+                error = nil
+            } catch {
+                self.error = error
+            }
+        }
+    }
+
+    
     func fetchMore() {
+        guard !isLoadingMore, error == nil else { return }
+
+        
         isLoadingMore = true
         page+=1
         
@@ -75,6 +101,7 @@ final class TopRatedMoviesViewModel {
             
             do {
                 topRatedMovies.append(contentsOf: try await TMDBApiService.service.get(page: page))
+                error = nil
             } catch let err {
                 error = err
             }
@@ -83,6 +110,12 @@ final class TopRatedMoviesViewModel {
     
     subscript(index: Int) -> Movie? {
         return topRatedMovies[index]
+    }
+    
+    func getGenres(for movie: Movie) -> [String] {
+        let genres = movie.genre_ids.compactMap{genresDict[$0]}
+
+        return genres
     }
     
 }

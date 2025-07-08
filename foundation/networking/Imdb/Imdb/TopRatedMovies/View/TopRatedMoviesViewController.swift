@@ -59,11 +59,13 @@ class TopRatedMoviesViewController: UITableViewController {
 
     private func setupErrorMessage() {
         DispatchQueue.main.async {
-            guard self.presentedViewController == nil else { return }
+            let errLabel = UILabel()
+            errLabel.text = "Something went wrong!"
+            errLabel.font = .boldSystemFont(ofSize: 20)
+            errLabel.textAlignment = .center
+            errLabel.textColor = .systemRed
             
-            let alert = UIAlertController(title: "Error", message: "Failed to load movies. \(self.viewModel.error?.localizedDescription ?? "")", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true)
+            self.tableView.tableHeaderView = errLabel
         }
     }
 
@@ -101,7 +103,7 @@ class TopRatedMoviesViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
+        return 240
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -112,7 +114,7 @@ class TopRatedMoviesViewController: UITableViewController {
             return UITableViewCell()
         }
 
-        cell.use(with: movie)
+        cell.use(with: movie, and: viewModel.getGenres(for: movie))
         return cell
     }
     
