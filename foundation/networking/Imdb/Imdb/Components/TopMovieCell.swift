@@ -128,7 +128,7 @@ class TopMovieCell: UITableViewCell {
         title.text = movie.title
         overview.text = movie.overview
         rating.text = movie.rating
-        votes.text = "\(movie.vote_count) votes"
+        votes.text = "\(movie.voteCount) votes"
         date.text = movie.year
         
         var items = genres

@@ -138,7 +138,7 @@ final class TMDBApiService {
             }
         }
         catch let err as URLError {
-            print("Net error")
+            print("Net error", err.localizedDescription)
             throw TMDBErrors.networkError
         }
         catch let err {

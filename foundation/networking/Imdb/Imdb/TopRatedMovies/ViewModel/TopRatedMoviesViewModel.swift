@@ -113,7 +113,7 @@ final class TopRatedMoviesViewModel {
     }
     
     func getGenres(for movie: Movie) -> [String] {
-        let genres = movie.genre_ids.compactMap{genresDict[$0]}
+        let genres = movie.genreIds.compactMap{genresDict[$0]}
 
         return genres
     }
