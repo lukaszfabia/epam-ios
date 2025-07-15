@@ -16,6 +16,8 @@ class SaveViewController: UIViewController {
         field.layer.cornerRadius = 10
         field.layer.borderWidth = 1
         field.layer.borderColor = UIColor.systemGray5.cgColor
+        field.layoutMargins = .init(top: 5, left: 5, bottom: 5, right: 5)
+        field.insetsLayoutMarginsFromSafeArea = true
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
@@ -33,12 +35,29 @@ class SaveViewController: UIViewController {
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 14, weight: .light)
         label.textColor = .label
-        label.textAlignment = .right
+        label.textAlignment = .left
         label.text = """
         Save your note. Please provide filename and content. If you want to create a new one, provide a new filename.
         """
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private let hStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.alignment = .fill
+        stack.spacing = 12
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
+    private let generateFileNameButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "sparkles"), for: .normal)
+        button.tintColor = .systemYellow
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     private let vStack: UIStackView = {
@@ -56,6 +75,10 @@ class SaveViewController: UIViewController {
     
     private var service: FileService!
     private var note: JsonNote? = nil
+    
+    private var keyboard: KeyboardHandler?
+    private var bottom: NSLayoutConstraint!
+    
     private var saveButton: UIBarButtonItem = .init()
     
     init(service: any FileService) {
@@ -65,23 +88,47 @@ class SaveViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = .systemBackground
+        
+        noteField.delegate = self
+        filenameField.delegate = self
+        
         setupUI()
         setupSaveButton()
-        view.backgroundColor = .systemBackground
-        title = "Save Note"
+        setupGenerateFileNameButton()
+        setupGestures()
+        
+        
+        keyboard = KeyboardHandler(fn: { _ in
+            self.view.layoutIfNeeded()
+        })
     }
+    
+     private func setupGestures() {
+         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(endEditing)))
+     }
+     
+     @objc private func endEditing() {
+         view.endEditing(true)
+     }
     
     private func setupUI() {
         view.addSubview(vStack)
         
         vStack.addArrangedSubview(prompt)
-        vStack.addArrangedSubview(filenameField)
+        
+        hStack.addArrangedSubview(filenameField)
+        hStack.addArrangedSubview(generateFileNameButton)
+        
+        vStack.addArrangedSubview(hStack)
         vStack.addArrangedSubview(noteField)
         
         NSLayoutConstraint.activate([
             vStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             vStack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             vStack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            
             
             noteField.heightAnchor.constraint(equalToConstant: 200),
         ])
@@ -92,6 +139,14 @@ class SaveViewController: UIViewController {
         navigationItem.rightBarButtonItem = saveButton
     }
     
+    private func setupGenerateFileNameButton() {
+        generateFileNameButton.addTarget(self, action: #selector(generate), for: .touchUpInside)
+    }
+    
+    @objc private func generate(_ sender: UIButton) {
+        filenameField.text = service.uniqueFileName
+    }
+    
     @objc private func save() {
         guard let text = noteField.text, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             showAlert("Note content cannot be empty.")
@@ -100,7 +155,7 @@ class SaveViewController: UIViewController {
         
         do {
             note = try service.save(.init(filename: filenameField.text, content: text))
-            showAlert("Note saved successfully.")
+            showAlert("\(filenameField.text ?? "???") saved successfully.")
         } catch {
             showAlert("Error: \(error.localizedDescription)")
         }
@@ -116,3 +171,20 @@ class SaveViewController: UIViewController {
     }
 }
 
+
+extension SaveViewController: UITextFieldDelegate, UITextViewDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        guard text == "\n" else {return true}
+        
+        textView.resignFirstResponder()
+        
+        return false
+    }
+    
+}

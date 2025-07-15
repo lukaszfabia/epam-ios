@@ -24,13 +24,6 @@ extension FileServiceErrors: LocalizedError {
     }
 }
 
-extension JsonService {
-    private func generateUniqueFileName() -> String {
-        return Date().timeIntervalSinceNow.description
-    }
-}
-
-
 //- Save user-entered text into a file in the Documents directory.
 //- Retrieve and display the content of the saved file when requested.
 //- Ensure the files are private and only accessible to the app.
@@ -46,7 +39,7 @@ class JsonService: FileService {
             throw FileServiceErrors.directoryDoesNotExists
         }
         
-        let filename = obj.filename ?? generateUniqueFileName()
+        let filename = obj.filename ?? uniqueFileName
         
         let path = destination.appendingPathComponent(filename, conformingTo: .json)
         

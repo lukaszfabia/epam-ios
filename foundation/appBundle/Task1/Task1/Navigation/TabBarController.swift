@@ -27,7 +27,7 @@ class TabBarController: UITabBarController {
         let jsonService = JsonService()
         
         
-        let saveNavigation = createNavigation(for: SaveViewController(service: jsonService), with: "Save", and: UIImage(systemName: "pencil"))
+        let saveNavigation = createNavigation(for: SaveViewController(service: jsonService), with: "Save Note", and: UIImage(systemName: "pencil"))
         
         let listNavigation = createNavigation(for: ListViewController(service: jsonService), with: "Notes", and: UIImage(systemName: "book.pages"))
         
