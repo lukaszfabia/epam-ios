@@ -153,20 +153,30 @@ class SaveViewController: UIViewController {
             return
         }
         
+        let filename = filenameField.text ?? ""
+        
+        if filename == "" {
+            showAlert("Please provide filename or generate new one.", clearInput: false)
+            return
+        }
+        
         do {
-            note = try service.save(.init(filename: filenameField.text, content: text))
-            showAlert("\(filenameField.text ?? "???") saved successfully.")
+            note = try service.save(.init(filename: filename, content: text))
+            showAlert("\(filename) saved successfully.")
         } catch {
             showAlert("Error: \(error.localizedDescription)")
         }
     }
     
-    private func showAlert(_ message: String) {
+    private func showAlert(_ message: String, clearInput: Bool = true) {
         let alert = UIAlertController(title: "Info", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default){_ in
-            self.noteField.text = ""
-            self.filenameField.text = ""
+            if clearInput {
+                self.noteField.text = ""
+                self.filenameField.text = ""
+            }
         })
+        noteField.resignFirstResponder()
         present(alert, animated: true)
     }
 }

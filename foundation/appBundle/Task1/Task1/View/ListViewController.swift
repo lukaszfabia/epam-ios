@@ -82,17 +82,30 @@ class ListViewController: UITableViewController {
     }
     */
 
-    /*
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            let noteToRemove = notes[indexPath.row]
+            guard let filename = noteToRemove.filename else {return}
+            
+            do {
+                try service.delete(filename)
+                
+                tableView.performBatchUpdates {
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                    notes.remove(at: indexPath.row)
+                }
+                
+            } catch let err {
+                print("Error: ", err.localizedDescription)
+            }
+            
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
 
     /*
     // Override to support rearranging the table view.

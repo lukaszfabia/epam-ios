@@ -12,11 +12,13 @@ protocol FileService {
     func retrieve<T: ReadWriteAccessible>(_ obj : T) throws -> T
     
     func getAll<T: ReadWriteAccessible>() -> [T]
+    
+    func delete(_ filename: String) throws
 }
 
 
 extension FileService {
     var uniqueFileName: String {
-        Date().timeIntervalSince1970.description
+        UUID().uuidString
     }
 }

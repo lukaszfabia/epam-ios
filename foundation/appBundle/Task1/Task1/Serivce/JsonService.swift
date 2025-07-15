@@ -8,7 +8,7 @@
 import Foundation
 
 enum FileServiceErrors: Error {
-    case failedToSave, failedToEncode, directoryDoesNotExists, fileNotExists, failedToRead
+    case failedToSave, failedToEncode, directoryDoesNotExists, fileNotExists, failedToRead, failedToDelete
 }
 
 extension FileServiceErrors: LocalizedError {
@@ -19,6 +19,7 @@ extension FileServiceErrors: LocalizedError {
         case .failedToEncode: return "Failed to encode data."
         case .failedToRead: return "Failed to read data."
         case .failedToSave: return "Failed to save data."
+        case .failedToDelete: return "Could not delete file."
             
         }
     }
@@ -143,4 +144,21 @@ class JsonService: FileService {
         return files
     }
     
+    func delete(_ filename: String) throws {
+        guard let destination = documentsDirectory else {
+            print("Failed to find documents directory")
+            throw FileServiceErrors.directoryDoesNotExists
+        }
+        
+        
+        let path = destination.appendingPathComponent(filename, conformingTo: .json)
+        
+        do {
+            try FileManager.default.removeItem(at: path)
+        } catch let err {
+            print("Error: ", err.localizedDescription)
+            throw FileServiceErrors.failedToDelete
+        }
+        
+    }
 }
