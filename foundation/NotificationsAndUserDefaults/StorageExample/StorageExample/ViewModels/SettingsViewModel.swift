@@ -14,8 +14,6 @@ class SettingsViewModel {
     let storage: any Storable
     let session: Session
     
-    var onLogout: (() -> Void)?
-    
     init(storage: any Storable, sessoin: Session) {
         self.storage = storage
         self.session = sessoin
