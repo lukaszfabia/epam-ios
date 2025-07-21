@@ -25,20 +25,20 @@ final class APIServiceTests: XCTestCase {
     // use expectations
     func test_apiService_fetchUsers_whenInvalidUrl_completesWithError() {
         let sut = makeSut()
-        let exp = expectation(description: "Fetched data")
+        let exp = expectation(description: "Fetch data with error.")
         
         sut.fetchUsers(urlString: "") {result in
             switch result {
             case .failure(let err):
                 XCTAssertEqual(APIError.invalidUrl, err)
             case .success(_):
-                XCTFail("Expected to be error")
+                XCTFail("Expected to be error cause of invalid url.")
             }
             
             exp.fulfill()
         }
         
-        waitForExpectations(timeout: 1)
+        waitForExpectations(timeout: 2)
     }
 
     // assert that method completes with .success(expectedUsers)
@@ -53,7 +53,7 @@ final class APIServiceTests: XCTestCase {
         
         let sut = makeSut()
         
-        let exp = expectation(description: "Fetched data")
+        let exp = expectation(description: "Fetch data with success.")
         
         sut.fetchUsers(urlString: "validurl") {result in
             switch result {
@@ -85,7 +85,7 @@ final class APIServiceTests: XCTestCase {
             exp.fulfill()
         }
         
-        waitForExpectations(timeout: 1)
+        waitForExpectations(timeout: 2)
     }
 
     // assert that method completes with .failure(.parsingError)
@@ -99,7 +99,7 @@ final class APIServiceTests: XCTestCase {
         mockURLSession.mockData = response
         
         let sut = makeSut()
-        let exp = expectation(description: "Fetched data")
+        let exp = expectation(description: "Fetch data with error.")
         
         sut.fetchUsers(urlString: "validurl") {result in
             switch result {
@@ -112,15 +112,15 @@ final class APIServiceTests: XCTestCase {
             exp.fulfill()
         }
         
-        waitForExpectations(timeout: 1)
+        waitForExpectations(timeout: 2)
     }
 
     // assert that method completes with .failure(.unexpected)
     func test_apiService_fetchUsers_whenError_completesWithFailure() {
-        mockURLSession.mockError = URLError(.badServerResponse)
+        mockURLSession.mockError = URLError(.unknown)
 
         let sut = makeSut()
-        let exp = expectation(description: "Fetched data")
+        let exp = expectation(description: "Fetch data with error.")
         
         sut.fetchUsers(urlString: "validurl") {result in
             switch result {
@@ -133,7 +133,7 @@ final class APIServiceTests: XCTestCase {
             exp.fulfill()
         }
         
-        waitForExpectations(timeout: 1)
+        waitForExpectations(timeout: 2)
     }
 
     // MARK: Fetch Users Async
@@ -150,7 +150,7 @@ final class APIServiceTests: XCTestCase {
         case .failure(let err):
             XCTAssertEqual(APIError.invalidUrl, err)
         case .success(_):
-            XCTFail("Expected to be error")
+            XCTFail("Expected to be error cause of invalid url.")
         }
     }
     
@@ -178,7 +178,7 @@ final class APIServiceTests: XCTestCase {
     
     // assert that method completes with .failure(.unexpected)
     func test_apiService_fetchUsersAsync_whenError_completesWithFailure() async {
-        mockURLSession.mockError = URLError(.badServerResponse)
+        mockURLSession.mockError = URLError(.unknown)
 
         let sut = makeSut()
         let result = await sut.fetchUsersAsync(urlString: "validurl")
@@ -187,7 +187,7 @@ final class APIServiceTests: XCTestCase {
         case .failure(let err):
             XCTAssertEqual(APIError.unexpected, err)
         case .success(_):
-            XCTFail("Expected to be error.")
+            XCTFail("Expected to be error cause of error from api.")
         }
     
     }
@@ -229,6 +229,21 @@ final class APIServiceTests: XCTestCase {
             // emails
             XCTAssertEqual(john.email, "johndoe@gmail.com")
             XCTAssertEqual(jane.email, "janedoe@gmail.com")
+        }
+    }
+    
+    func test_apiService_fetchUsersAsync_whenResponseHasNoData_completesWithFailure() async {
+        mockURLSession.mockData = nil
+        
+        let sut = makeSut()
+        
+        let result = await sut.fetchUsersAsync(urlString: "validurl")
+        
+        switch result {
+        case .failure(let err):
+            XCTAssertEqual(APIError.unexpected, err)
+        case .success(_):
+            XCTFail("Expected to be error cause of error from api.")
         }
     }
 

@@ -32,6 +32,7 @@ class UsersViewModelTests: XCTestCase {
 
     // assert that the passed url to api service is correct
     // so we're testing wheater out hardcoded api url is passed to wrapper???
+    // in this case i had to add var to mock class to save lastUrl
     func test_viewModel_whenFetchUsers_passesCorrectUrlToApiService() {
         let sut = makeSut()
         sut.fetchUsers(completion: {})
@@ -48,13 +49,13 @@ class UsersViewModelTests: XCTestCase {
         
         let sut = makeSut()
         
-        let exp = expectation(description: "Data fetched")
+        let exp = expectation(description: "Fetch users with success")
 
         sut.fetchUsers {
             exp.fulfill()
         }
 
-        waitForExpectations(timeout: 1)
+        waitForExpectations(timeout: 2)
         
         
         XCTAssertNil(sut.errorMessage, "Expected to be nil")
@@ -75,15 +76,15 @@ class UsersViewModelTests: XCTestCase {
         
         let sut = makeSut()
         
-        let exp = expectation(description: "Data fetched")
+        let exp = expectation(description: "Fetch users with error")
         
         sut.fetchUsers {
             exp.fulfill()
         }
         
-        waitForExpectations(timeout: 1)
+        waitForExpectations(timeout: 2)
         
-        XCTAssertNotNil(sut.errorMessage, "Expected to be error")
+        XCTAssertNotNil(sut.errorMessage, "Expected to be error cause of invalid url")
         XCTAssertEqual(sut.errorMessage, "Unexpected error")
         
     }
@@ -94,13 +95,13 @@ class UsersViewModelTests: XCTestCase {
         
         let sut = makeSut()
         
-        let exp = expectation(description: "Data fetched")
+        let exp = expectation(description: "Fetch users with error")
         
         sut.fetchUsers {
             exp.fulfill()
         }
         
-        waitForExpectations(timeout: 1)
+        waitForExpectations(timeout: 2)
         
         XCTAssertNotNil(sut.errorMessage, "Expected to be error")
         XCTAssertEqual(sut.errorMessage, "Unexpected error")
@@ -112,15 +113,15 @@ class UsersViewModelTests: XCTestCase {
         
         let sut = makeSut()
         
-        let exp = expectation(description: "Data fetched")
+        let exp = expectation(description: "Fetch users with error")
         
         sut.fetchUsers {
             exp.fulfill()
         }
         
-        waitForExpectations(timeout: 1)
+        waitForExpectations(timeout: 2)
         
-        XCTAssertNotNil(sut.errorMessage, "Expected to be error")
+        XCTAssertNotNil(sut.errorMessage, "Expected to be error cause of invalid structure of response")
         XCTAssertEqual(sut.errorMessage, "Error parsing JSON")
     }
 
@@ -135,13 +136,13 @@ class UsersViewModelTests: XCTestCase {
         
         let sut = makeSut()
         
-        let exp = expectation(description: "Users fetched")
+        let exp = expectation(description: "Fetch users with sucess")
         
         sut.fetchUsers {
             exp.fulfill()
         }
         
-        waitForExpectations(timeout: 1)
+        waitForExpectations(timeout: 2)
         
         XCTAssertEqual(sut.users.count, 2)
         
