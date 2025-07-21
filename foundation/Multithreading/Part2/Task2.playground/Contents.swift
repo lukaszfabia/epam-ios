@@ -28,9 +28,7 @@ func executeTasks() {
     
 
     dispatchGroup.notify(queue: queueFinal) {
-        queueFinal.async {
-            executeTask(3, delay: 1)
-        }
+        executeTask(3, delay: 1)
     }
 }
 
