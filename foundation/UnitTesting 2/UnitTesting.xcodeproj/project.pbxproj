@@ -35,22 +35,9 @@
 		EB401E0E2D6FC40F00318FA3 /* UnitTestingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTestingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		EB401E332D6FC7A300318FA3 /* Exceptions for "UnitTesting" folder in "UnitTesting" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = EB401DF72D6FC40D00318FA3 /* UnitTesting */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		EB401DFA2D6FC40D00318FA3 /* UnitTesting */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				EB401E332D6FC7A300318FA3 /* Exceptions for "UnitTesting" folder in "UnitTesting" target */,
-			);
 			path = UnitTesting;
 			sourceTree = "<group>";
 		};
