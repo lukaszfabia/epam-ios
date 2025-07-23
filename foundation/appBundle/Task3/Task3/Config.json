@@ -1,0 +1,79 @@
+{
+  "galleryTitle": "Nice gallery",
+  "images": [
+    {
+        "title": "image 1", "path": "image1"
+    },
+    {
+        "title": "idk", "path": "image2"
+    },
+    {
+        "title": "grok", "path": "image3"
+    },
+    {
+        "title": "bora bora", "path": "image4"
+    },
+    {
+        "title": "borek1", "path": "image5"
+    },
+    {
+        "title": "image 1", "path": "image1"
+    },
+    {
+        "title": "idk", "path": "image2"
+    },
+    {
+        "title": "grok", "path": "image3"
+    },
+    {
+        "title": "bora bora", "path": "image4"
+    },
+    {
+        "title": "borek1", "path": "image5"
+    },
+    {
+        "title": "image 1", "path": "image1"
+    },
+    {
+        "title": "idk", "path": "image2"
+    },
+    {
+        "title": "grok", "path": "image3"
+    },
+    {
+        "title": "bora bora", "path": "image4"
+    },
+    {
+        "title": "borek1", "path": "image5"
+    },
+    {
+        "title": "image 1", "path": "image1"
+    },
+    {
+        "title": "idk", "path": "image2"
+    },
+    {
+        "title": "grok", "path": "image3"
+    },
+    {
+        "title": "bora bora", "path": "image4"
+    },
+    {
+        "title": "borek1", "path": "image5"
+    },
+    {
+        "title": "tego nie ma", "path": "aaaaimage5"
+    },
+    
+  ],
+  "grid": {
+    "scrollingDirection": "horizontal",
+    "spacing": 10,
+    "cols": 2,
+    "padding": 10,
+  },
+
+  "prefferedTheme": "dark",
+  
+  "errorIconName": "exclamationmark.magnifyingglass",
+}
