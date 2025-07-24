@@ -8,5 +8,5 @@
 import Foundation
 
 protocol ImageService {
-    func fetchImageList(perPage: Int) async throws -> [URL]
+    func fetchImageList(page: Int, limit: Int) async throws -> [any Image]
 }
