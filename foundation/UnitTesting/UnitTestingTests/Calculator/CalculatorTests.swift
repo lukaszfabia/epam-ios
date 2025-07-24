@@ -36,7 +36,11 @@ final class CalculatorTests: XCTestCase {
         
         let thirdCase = try calculator.divide(1, 4)
         
-        XCTAssertEqual(thirdCase, 0)
+        XCTAssertEqual(thirdCase, 0.25)
+        
+        let fourthCase = try calculator.divide(-2, 4)
+        
+        XCTAssertEqual(fourthCase, -0.5)
     }
 
     // Given a zero divisor, when dividing, then it throws a .divisionByZero error
@@ -57,7 +61,7 @@ final class CalculatorTests: XCTestCase {
         XCTAssertFalse(secondCase, "Expected shoud be false and got: \(secondCase)")
         
         let thirdCase = calculator.isGreaterThanTen(11)
-        XCTAssertTrue(thirdCase, "Expected shoud be false and got: \(thirdCase)")
+        XCTAssertTrue(thirdCase, "Expected shoud be true and got: \(thirdCase)")
     }
 
     // Use XCTAssertNotNil and/or XCTAssertEqual
