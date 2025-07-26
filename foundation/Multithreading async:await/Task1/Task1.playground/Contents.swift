@@ -3,7 +3,7 @@ import Foundation
 let mainQueue = OperationQueue.main
 let queue = OperationQueue()
 // order guarantee
-queue.maxConcurrentOperationCount = 2
+//queue.maxConcurrentOperationCount = 2
 
 let operation = BlockOperation {
     print(Thread.current)
@@ -17,9 +17,9 @@ let operation = BlockOperation {
 
 let other = BlockOperation {
     print(Thread.current)
-    
+
     sleep(3)
-    
+
     print("end")
 }
 
@@ -33,8 +33,4 @@ queue.addOperation {
     print(Thread.current)
     sleep(1)
     print("one more other done")
-}
-queue.addOperation {
-    print(Thread.current)
-    print("no time operation will be executed as a last one in this queue")
 }
