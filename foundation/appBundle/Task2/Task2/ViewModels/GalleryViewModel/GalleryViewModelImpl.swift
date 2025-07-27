@@ -31,14 +31,10 @@ class GalleryViewModelImpl: GalleryViewModel {
     }
     
     func getImage(at index: IndexPath) async -> UIImage {
-        print("Loading image for indexPath: \(index.row)")
-
         let url = images[index.row].urlToUse
         return await cacheService.load(from: url)
     }
 
-
-    
     func fetchImages() async {
         isLoading = true
         defer { isLoading = false }
