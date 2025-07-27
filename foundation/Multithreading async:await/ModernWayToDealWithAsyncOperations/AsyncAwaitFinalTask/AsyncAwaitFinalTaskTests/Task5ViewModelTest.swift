@@ -21,7 +21,7 @@ class Task5ViewModelTests: XCTestCase {
         super.tearDown()
     }
     
-    func test_InitialValues() throws {
+    func test_initialValues() throws {
         let sut = makeSut()
         
         XCTAssertEqual("Not running", sut.displayedText)

@@ -49,7 +49,7 @@ struct Task4View: View {
 
 @MainActor
 @Observable
-class Task4ViewModelAPI: @unchecked Sendable {
+class Task4ViewModelAPI {
     
     var isLoading: Bool = false
     var finished: Bool = false

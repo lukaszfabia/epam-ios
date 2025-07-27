@@ -7,7 +7,7 @@
 
 @testable import AsyncAwaitFinalTask
 
-class Task5APIMock: Task5API, @unchecked Sendable {
+class Task5APIMock: Task5API {
     private var millisecondDelayForOne: Int = 50
     private var millisecondDelayForTwo: Int = 100
     private var millisecondDelayForThree: Int = 200
