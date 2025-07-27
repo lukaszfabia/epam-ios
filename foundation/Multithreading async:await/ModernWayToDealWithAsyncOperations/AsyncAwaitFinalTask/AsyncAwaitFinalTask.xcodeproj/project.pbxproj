@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,7 +19,6 @@
 		D99F13392BC58E5600F23B1E /* Task1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99F13382BC58E5600F23B1E /* Task1View.swift */; };
 		D99F13412BC59D0000F23B1E /* Task2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99F13402BC59D0000F23B1E /* Task2View.swift */; };
 		D9A209F52C3C1A4B004F1DDF /* Task4View.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A209F42C3C1A4B004F1DDF /* Task4View.swift */; };
-		F37D2EEC2E3676F5000789C9 /* Task5ViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F376582D2E36664800DC463E /* Task5ViewModelTest.swift */; };
 		F37D2EF32E36950D000789C9 /* ConcurrencyExtras in Frameworks */ = {isa = PBXBuildFile; productRef = F37D2EF22E36950D000789C9 /* ConcurrencyExtras */; };
 		F37D2EF52E36971A000789C9 /* ConcurrencyExtras in Frameworks */ = {isa = PBXBuildFile; productRef = F37D2EF42E36971A000789C9 /* ConcurrencyExtras */; };
 /* End PBXBuildFile section */
@@ -65,12 +64,7 @@
 		D99F13402BC59D0000F23B1E /* Task2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task2View.swift; sourceTree = "<group>"; };
 		D9A209F32C3C1A40004F1DDF /* Description.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Description.md; sourceTree = "<group>"; };
 		D9A209F42C3C1A4B004F1DDF /* Task4View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task4View.swift; sourceTree = "<group>"; };
-		F376582D2E36664800DC463E /* Task5ViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task5ViewModelTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		F37D2EE92E367513000789C9 /* Mocks */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Mocks; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		D99F13062BC58DAF00F23B1E /* Frameworks */ = {
@@ -168,8 +162,6 @@
 			isa = PBXGroup;
 			children = (
 				D99F131E2BC58DB200F23B1E /* AsyncAwaitFinalTaskTests.swift */,
-				F376582D2E36664800DC463E /* Task5ViewModelTest.swift */,
-				F37D2EE92E367513000789C9 /* Mocks */,
 			);
 			path = AsyncAwaitFinalTaskTests;
 			sourceTree = "<group>";
@@ -242,9 +234,6 @@
 			);
 			dependencies = (
 				D99F131C2BC58DB200F23B1E /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				F37D2EE92E367513000789C9 /* Mocks */,
 			);
 			name = AsyncAwaitFinalTaskTests;
 			productName = AsyncAwaitFinalTaskTests;
@@ -360,7 +349,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F37D2EEC2E3676F5000789C9 /* Task5ViewModelTest.swift in Sources */,
 				D99F131F2BC58DB200F23B1E /* AsyncAwaitFinalTaskTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
