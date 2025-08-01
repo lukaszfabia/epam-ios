@@ -158,3 +158,229 @@ Współbieżność nie musi oznaczać zrównoleglenia, ale często idą razem.
 
 
 15. Główny thread zajmuje się ważnymi operacjami jak aktualizacja czegoś na interfejsie i nie może być blokowany, a operacje nie mogą być wykonywane współbieżnie, thready, które działają w tle wykonują operacje o który user nie musi wiedzieć od zapisu czegoś do cache po mierzenie zużycia pamięci lub CPU.
+
+
+
+## OperationQueue - nowe podejście
+
+1. BlockBased - jak tworzyć i uruchamiać?
+
+```swift
+
+// concurent queue
+let queue = OperationQueue()
+
+let op = BlockOperation {
+    print("Hello World")
+}
+
+queue.addOperation(op)
+```
+2. Ustawianie zależności między operacjami i co to oznacza
+
+Ustawianie zależności między operacjami pomaga w uruchamianiu danej operacji przed inna w ten sposób można tworzyć hierarchie etc. To właśnie wyróżnia OperationQueue od DispatchQueue.
+
+```swift
+blockA.addDependency(blockB)
+```
+
+3. Ile można uruchomić równolegle operacji w kolejce i jak się to zmienia.
+
+Generalnie wartość domyślna jest przydzialana przez swift na podstawie dostępnych zasobów, ale można to zmienić poprzez property .maxConcurrentOperationCount.
+
+
+4. Na jakich threadach lecą operacje
+
+- main
+- na takich które zostaną przydzielone przez system
+
+5. Cancel operacji jest poprzez wywołanie metody cancel() na operacji lub na całej kolejce.
+
+6. Różnice między OperationQueue a GCD
+
+OperationQueue jest bardziej złożony, czyli dostajemy więcej możliwości kontroli niż w kolejce. Oba mechanizmy są podobne, ale OperationQueue jest używany w bardziej żłożonych przypadkach, gdy chcemy cancelować operacje, tworzyć hierarchie operacji, lub operacje mają się wykonać współbieżnie lub sekwencyjnie. GCD nadaje się bardziej do prostych operacji i ogólnie jest **lżejszy**. Pytanie czy jest łatwiejsze do używania? Oba są proste moim zdaniem.
+
+
+## Asynchroniczność
+
+1. Jak działa async/await w Swift i jak to ulepsza czytelnosc asynchronicznej kodu
+
+Ogólnie **async/await** to `kolorwanie kodu` przy każdej asnychronicznej operacji dodajemy await, w ten sposób unikamy _closure hell_.
+
+Przykład:
+
+```swift
+func fetch() async throws -> Data {
+    try await URLSession.shared.data(from: URL(string: "https://example.com")!)
+}
+
+func fetch(completion: @escaping () -> Void) {
+    URLSession.shared.dataTask(with: URL(string: "https://example.com")!) { data, response, error in
+        completion()
+    }.resume()
+}
+```
+
+2. Co się dzieje, gdy wywołamy funkcję asynchroniczną w kontekście nieasynchronicznym? Jak izolować takie wywołania poprzez Task?
+
+Wystąpi nam błąd, ponieważ kompilator będzie chciał asnychornicznego kontekstu, a my nie jesteśmy w stanie go utworzyć. Wtedy używamy Task {}. Jeśli operacja dot. aktualizacji UI to musimy użyć dekoratora `@MainActor`.
+
+```swift
+Task { @MainActor
+    await fetch()
+}
+```
+
+3. TaskGroup pomaga nam wykonywać zadania, które mogą być wystartowane w tym samym czasie, przez do aplikacja jest szybsza. Na koniec zbieramy wszystkie wyniki czekając na zakończenie wszystkich zadań.
+
+4. Jak działa cancelowanie zadań w współbierznym swiftcie i jak można sprawdzać czy zadanie jest cancelled lub jak reagować na cancellation.
+
+Jesteśmy odpowiedzialni za sprawdzenie czy Task jest cancelled i reagować na cancellation.
+
+```swift
+Task.isCancelled // sprawdzenie czy Task jest cancelled
+
+let task = Task {}
+
+task.cancel() // anulowanie zadania
+```
+Anulowanie nie przerywa automatycznie wykonywania zadania, a jedynie ustawia flagę, którą kod musi sprawdzić.
+
+Propagacja anulowania:
+
+Gdy zadanie nadrzędne zostanie anulowane, wszystkie jego podzadania (child tasks) automatycznie dziedziczą stan anulowania.
+
+W strukturach takich jak withThrowingTaskGroup anulowanie grupy zadań automatycznie propaguje się do wszystkich zadań w grupie.
+
+5. Rola MainActora.
+
+MainActor to dekorator, który gwarantuje, że zadanie wykona się na main threadzie co jest istotne kiedy mamy operacje powiązaną z aktualizacją UI.
+
+6. Propagacja błędów i ich obsługa w modelowaniu współbieżności w Swift
+
+Błędy w Structured Concurrency są propagowane automatycznie przez async/await i TaskGroup, zapewniając przewidywalne zarządzanie błędami.
+Obsługa błędów wymaga użycia try w wywołaniach async throws oraz bloków do-catch do przechwytywania błędów.
+Anulowanie zadania może być traktowane jako błąd (CancellationError), co integruje się z mechanizmem obsługi błędów.
+
+
+## Testing
+
+Testowanie jednostkowe jest najniższym poziomem testowania, aplikacji polegającym na tym, że testujemy konkretną jednostkę, czyli metodę/funkcję. Jest to ważne, bo pokazuje czy nasz kod jest stabilny i działa poprawnie. W iOS używa się `XCTest` do pisania testów, aby określić, temat testów używa się `@testable`. W ten sposób wszystkie klasy, funkcje zostaną zaimportowane i będzie można je używać w testach.
+
+```swift
+import XCTest
+@testable import MyApp
+```
+
+Aby stworzyć moduł testowy używa się klasy `XCTestCase` ona zawiera metody `setUp()` i `tearDown()` które są wywoływane przed i po każdym testowaniu. Są one używane do inicjalizacji i czyszczenia danych testowych. Dodatkowo XCode integruje się z klasa XCTestCase i można uruchamiać konkretne testy za pomocą "diamencika".
+
+### Poszczgólne metody z XCTest
+
+**Nil assertion** używane kiedy funkcje zwraca typ opcjonalny.
+
+- XCTAssertNil: sprawdzamy czy wynik jest `nil`
+
+- XCTAssertNotNil: sprawdzamy czy wynik jest różny od `nil`
+
+**Zakańczanie testów**: w niektórych sytuacjach używa się `XCTFail()`, które natychmiast negatywnie zakańcza test. Może być to użyte kiedy testu nie ma, przykład:
+
+```swift
+func test_SomeMethod() {
+    //TODO: implement appropriate test
+    XCTFail("not implemented")
+}
+```
+Ogólnie można powiedzieć, że służy to jako komunikat, nie powinno się używać tego przy pisaniu testów a jedynie oznaczaniu gdzie czegoś brakuje etc.
+
+### Mockowanie i stuby
+
+Mockowanie generalnie ma symulować działanie czegoś co jest używane w warstwie wyżej, dlatego też wykorzystuje się tak bardzo interfejsy, aby podmieniać implementację w ten sposób mamy niskie powiązania w kodzie i można łatwiej przetestować logikę biznesową.
+
+Stub: jest to dostarczanie danych, które są potem jakoś walidowane, np. mamy źródło danych symulujemy poprzez ustawienie danych i sprawdzamy jak te dane przejdą przez klasę która jest testowana. Jest to takie źródło danych.
+
+1. Jak weryfikować, że metoda została wywołana na mock obiekcie?
+
+- upewnić się ze wystrzkujemy implementacje mocka w to co testujemy
+
+- dodać logi
+
+- dodać test, który sprawdzi czy używamy mocka np. jest funkcja, która zwraca nam coś z mocka no to sprawdzić tą wartość czy jest zgodna z oczekiwaną
+
+### Testowanie asynchroniczności w kodzie
+
+Można używać `expectation` lub jeśli mamy doczynienia z nowoczesnym swiftem to wystarczy **kolorować** funkcje.
+
+Przykład z `expectation`:
+
+```swift
+
+func test_apiService_fetchUsers_whenError_completesWithFailure() {
+    mockURLSession.mockError = URLError(.unknown)
+
+    let sut = makeSut()
+    let exp = expectation(description: "Fetch data with error.")
+
+    sut.fetchUsers(urlString: "validurl") { result in
+        switch result {
+            case .failure(let err):
+                XCTAssertEqual(APIError.unexpected, err)
+            case .success(_):
+                XCTFail("Expected to be error.")
+        }
+
+        exp.fulfill()
+    }
+
+    waitForExpectations(timeout: 2)
+}
+```
+
+### DI w testach
+
+Bez DI będzie bardzo trudno testować, a same testy mogą być niestabilne. Samo DI jest istotne nie tylko w testowaniu, ale w pisaniu kodu o niskich powiązaniach.
+
+Przykład (uproszczony):
+
+```swift
+protocol Service {
+    //crud functions
+}
+
+class ServiceImpl: Service {}
+
+class MockService: Service {}
+
+class ViewModel {
+    private var service: any Service
+
+    init(service: any Service = ServiceImpl()) {
+        self.service = service
+    }
+}
+
+let vm = ViewModel() // used in real app
+
+let sut = ViewModel(service = MockService()) // used to testing
+
+```
+
+### Czego unikać przy testowaniu
+
+Powinno się unikać pisania flaky testów, które zależą od innych czynników jak kolejność realizacji zadań w przypadku testowania funkcji współbieżnych, ale także unikać wykonywania requestów.
+
+Dlaczego?
+
+- Jeżeli mamy środowisko CI/CD to ono często ma ograniczone zasoby i brak dostępu do internetu
+
+- Jeżeli chodzi o wykonywanie requestów to polegamy wtedy na serwerze i liczymy, że zwróci nam spodziewane dane, ale w przypadku kiedy:
+  - nasze api dopiero powstaje lub go nie ma i nie jest jeszcze przetestowane
+
+  - co w przypadku kiedy api jest niedostępne (inne test się wywalą)
+
+### XCTUnwrap
+
+Jest to funckja, która służy do sprawdzania wartości po wypakowaniu, dodatkowo wywala się jeśli dostała `nil`. Przydatne jeśli zwracany jest chain i chcemy sprawdzić daną wartość z chaina.
+
+### SUT - system under testing
+
+Dobrą praktyką jest używanie dobrego nazewnictwa, kiedy tworzymy instancję do testu można ją nazwać `sut` dodatkowo jeśli chcemy zapewnić atomowość podmiotu, warto resetować jego stan lub tworzyć nowe instancje.
