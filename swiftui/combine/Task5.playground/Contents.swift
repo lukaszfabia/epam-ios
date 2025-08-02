@@ -21,7 +21,6 @@ let sub = publisher
 var buffer = ""
 for elem in greeting {
     buffer.append(elem)
-    sleep(1)
     publisher
         .send(buffer)
 }
