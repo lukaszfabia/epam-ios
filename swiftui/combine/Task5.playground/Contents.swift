@@ -18,9 +18,12 @@ let sub = publisher
     }
 
 
-var buffer = ""
-for elem in greeting {
-    buffer.append(elem)
-    publisher
-        .send(buffer)
+Task {
+    var buffer = ""
+    for elem in greeting {
+        buffer.append(elem)
+        try await Task.sleep(for: .milliseconds(200))
+        publisher
+            .send(buffer)
+    }
 }
