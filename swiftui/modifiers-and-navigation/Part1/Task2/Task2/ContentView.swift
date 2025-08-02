@@ -11,18 +11,16 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            VStack {
-                Rectangle()
-                    .foregroundStyle(.red)
-                    .frame(width: 150, height: 100)                
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding()
+        ZStack {
+            Rectangle()
+                .foregroundStyle(.red)
+                .frame(width: 150, height: 100)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             
             Rectangle()
                 .foregroundStyle(.tint)
                 .frame(width: 150, height: 100)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                 .padding()
         }
     }
