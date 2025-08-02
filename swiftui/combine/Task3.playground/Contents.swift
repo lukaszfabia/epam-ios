@@ -9,7 +9,11 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 let namePublisher = Just("name")
 let surnamePublisher = Just("surname")
 
-let subcriber = namePublisher.combineLatest(surnamePublisher) .sink { name, surname in
-    print("\(name.uppercased()) \(surname)")
+let subcriber = namePublisher
+    .map({ name in
+        return name.uppercased()
+    })
+    .combineLatest(surnamePublisher) .sink { name, surname in
+    print("\(name) \(surname)")
 }
 
