@@ -13,7 +13,7 @@ class FormModel {
     
     private let validator: UserValidator = .init()
     
-    var isUserValid: Bool {
-        validator.validate(email: user.email) && validator.validate(name: user.name)
+    var isUserInvalid: Bool {
+        !(validator.validate(user.email) && validator.validate(user.name))
     }
 }

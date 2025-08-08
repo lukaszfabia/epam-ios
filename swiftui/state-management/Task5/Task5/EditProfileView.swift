@@ -8,10 +8,6 @@
 import SwiftUI
 
 struct EditProfileView: View {
-    
-    @FocusState private var focusedUsername: Bool
-    @FocusState private var focusedEmail: Bool
-    
     @State private var formModel: FormModel = .init()
     
     var body: some View {
@@ -19,12 +15,10 @@ struct EditProfileView: View {
             Form {
                 Section {
                     TextField(text: $formModel.user.name, label: {Text("Username")})
-                        .focused($focusedUsername)
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
                     
                     TextField(text: $formModel.user.email, label: {Text("Email")})
-                        .focused($focusedEmail)
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
                         .keyboardType(.emailAddress)
@@ -40,7 +34,7 @@ struct EditProfileView: View {
                     } label: {
                         Text("Update")
                     }
-                    .disabled(!formModel.isUserValid)
+                    .disabled(formModel.isUserInvalid)
                 }
             }
         }

@@ -8,16 +8,10 @@
 import Foundation
 
 struct UserValidator {
-    func validate(email: String) -> Bool {
-        let emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,64}$"
-        let emailPredicate = NSPredicate(format: "SELF MATCHES[c] %@", emailRegex)
-        return emailPredicate.evaluate(with: email)
-    }
-    
-    func validate(name: String) -> Bool {
-        let nameWithoutWhiteSpaces = name.trimmingCharacters(in: .whitespacesAndNewlines)
+    func validate(_ str: String) -> Bool {
+        let strWithoutWhiteSpaces = str.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        guard !nameWithoutWhiteSpaces.isEmpty else {return false}
+        guard !strWithoutWhiteSpaces.isEmpty else {return false}
         
         return true
     }
