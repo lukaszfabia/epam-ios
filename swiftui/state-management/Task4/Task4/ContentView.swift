@@ -19,7 +19,7 @@ class User {
 }
 
 struct ContentView: View {
-    @Bindable private var user: User = .init()
+    @State private var user: User = .init()
     
     var body: some View {
         NavigationStack {
