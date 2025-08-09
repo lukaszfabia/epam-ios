@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FirstView: View {
-    @Binding var shared: SharedObject
+    @Bindable var shared: SharedObject
     
     var body: some View {
         NavigationStack {
@@ -17,7 +17,7 @@ struct FirstView: View {
                     .padding()
                 
                 Button {
-                    shared.increment()
+                    shared.counter += 1
                 } label: {
                     Image(systemName: "plus")
                 }

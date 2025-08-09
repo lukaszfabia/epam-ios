@@ -6,13 +6,8 @@
 //
 
 import Observation
-import Foundation
 
 @Observable
 class SharedObject {
     var counter: Int = 0
-    
-    func increment() {
-        counter+=1
-    }
 }
