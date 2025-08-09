@@ -17,7 +17,7 @@ struct FirstView: View {
                     .padding()
                 
                 Button {
-                    shared.counter += 1
+                    shared.increment()
                 } label: {
                     Image(systemName: "plus")
                 }

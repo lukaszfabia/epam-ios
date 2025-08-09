@@ -19,7 +19,7 @@ class User {
 }
 
 struct ContentView: View {
-    @State private var user: User = .init()
+    @Bindable private var user: User = .init()
     
     var body: some View {
         NavigationStack {
@@ -58,9 +58,8 @@ struct ContentView: View {
                 }
                 
             }
-            .padding()
-            .navigationTitle("User form")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("User form")
             .toolbar {
                 ToolbarItem {
                     Button {
