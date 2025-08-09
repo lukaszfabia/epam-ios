@@ -10,4 +10,8 @@ import Observation
 @Observable
 class SharedObject {
     var counter: Int = 0
+    
+    func increment() {
+        counter += 1
+    }
 }

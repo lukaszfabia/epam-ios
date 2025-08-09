@@ -9,7 +9,7 @@ import Observation
 
 @Observable
 class FormModel {
-    var user: User = .init(email: "", name: "")
+    var user: User = .init()
     
     private let validator: UserValidator = .init()
     

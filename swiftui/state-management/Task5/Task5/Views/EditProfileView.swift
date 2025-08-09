@@ -36,7 +36,7 @@ struct EditProfileView: View {
                     }
                     .disabled(formModel.isUserInvalid)
                 }
-            }
+            }.navigationTitle("Edit")
         }
     }
 }
