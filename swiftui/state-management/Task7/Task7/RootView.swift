@@ -13,11 +13,11 @@ struct RootView: View {
     var body: some View {
         TabView {
             Tab("First", systemImage: "house") {
-                FirstView(shared: $shared)
+                FirstView(shared: shared)
             }
 
             Tab("Second", systemImage: "chart.bar") {
-                SecondView(shared: $shared)
+                SecondView(shared: shared)
             }
         }
     }
