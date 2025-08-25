@@ -12,18 +12,18 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                List(fruits) { fruit in
-                    NavigationLink(destination: FruitShowcaseView(fruit: fruit), label: {
-                        Text(fruit.name)
-                    })
+            List(fruits) { fruit in
+                NavigationLink(value: fruit) {
+                    Text(fruit.name)
                 }
             }
-            .padding()
+            .navigationDestination(for: Fruit.self, destination: { fruit in
+                FruitShowcaseView(fruit: fruit)
+            })
+            .navigationTitle("Groceries")
         }
-        .navigationTitle("Groceries")
         
-    }
+    }				
 }
 
 #Preview {

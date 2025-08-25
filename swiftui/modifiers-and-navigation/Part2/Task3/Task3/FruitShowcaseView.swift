@@ -34,7 +34,6 @@ struct FruitShowcaseView: View {
             HStack(spacing: 10) {
                 Text("Weight (g)")
                     .foregroundStyle(.secondary)
-                Image(systemName: "scalemass")
                 Text(String(format: "%.2f", fruit.weightInGrams))
                     .bold()
 
@@ -43,7 +42,6 @@ struct FruitShowcaseView: View {
             HStack(spacing: 10) {
                 Text("Quantity")
                     .foregroundStyle(.secondary)
-                Image(systemName: "numbers")
                 Text(String(format: "%.2f", fruit.quantity))
                     .bold()
             }
