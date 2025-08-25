@@ -18,7 +18,6 @@ struct FirstView: View {
                     }
                 })
             }
-            .padding()
             .navigationTitle("First view")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
