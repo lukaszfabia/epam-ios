@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RootView: View {
-    @State private var manager: TaskManager = .init()
+    @StateObject private var manager: TaskManager = .init()
     
     var body: some View {
         TabView {

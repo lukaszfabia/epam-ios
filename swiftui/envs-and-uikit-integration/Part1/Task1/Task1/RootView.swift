@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RootView: View {
-    @State var counter = CounterViewModel()
+    @StateObject var counter = CounterViewModel()
     
     var body: some View {
         TabView {
